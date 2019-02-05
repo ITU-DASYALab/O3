@@ -1,0 +1,299 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		62A52628159B484000819688 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A52627159B484000819688 /* main.cpp */; };
+		62A5262A159B484000819688 /* FaceRecTest.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 62A52629159B484000819688 /* FaceRecTest.1 */; };
+		62A52632159B488000819688 /* FaceRecognitionPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A52630159B488000819688 /* FaceRecognitionPlugin.cpp */; };
+		62A5263A159B48A800819688 /* Face.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A52634159B48A800819688 /* Face.cpp */; };
+		62A5263B159B48A800819688 /* MySQLite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A52636159B48A800819688 /* MySQLite.cpp */; };
+		62A5263C159B48A800819688 /* Person.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A52638159B48A800819688 /* Person.cpp */; };
+		62A52642159B48C400819688 /* FaceDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A5263D159B48C400819688 /* FaceDetector.cpp */; };
+		62A52643159B48C400819688 /* FaceExtractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A5263F159B48C400819688 /* FaceExtractor.cpp */; };
+		62A52644159B48C400819688 /* RegionOfInterest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A52640159B48C400819688 /* RegionOfInterest.cpp */; };
+		62A5264C159B491600819688 /* Eigenfaces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A52645159B491600819688 /* Eigenfaces.cpp */; };
+		62A5264D159B491600819688 /* Fisherfaces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A52647159B491600819688 /* Fisherfaces.cpp */; };
+		62A5264E159B491600819688 /* Recognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A5264A159B491600819688 /* Recognizer.cpp */; };
+		62A52650159B496B00819688 /* libopencv_core.2.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A5264F159B496B00819688 /* libopencv_core.2.2.0.dylib */; };
+		62A52652159B499000819688 /* libopencv_highgui.2.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A52651159B499000819688 /* libopencv_highgui.2.2.0.dylib */; };
+		62A52654159B49AB00819688 /* libopencv_imgproc.2.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A52653159B49AB00819688 /* libopencv_imgproc.2.2.0.dylib */; };
+		62A52656159B49C900819688 /* libopencv_objdetect.2.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A52655159B49C900819688 /* libopencv_objdetect.2.2.0.dylib */; };
+		62A52658159B49FC00819688 /* libopencv_ml.2.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A52657159B49FC00819688 /* libopencv_ml.2.2.0.dylib */; };
+		62A5265A159B4A1600819688 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A52659159B4A1600819688 /* libsqlite3.0.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		62A52621159B484000819688 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				62A5262A159B484000819688 /* FaceRecTest.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		62A52623159B484000819688 /* FaceRecTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FaceRecTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		62A52627159B484000819688 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		62A52629159B484000819688 /* FaceRecTest.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = FaceRecTest.1; sourceTree = "<group>"; };
+		62A52630159B488000819688 /* FaceRecognitionPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FaceRecognitionPlugin.cpp; path = ../../FaceRecognitionPlugin.cpp; sourceTree = "<group>"; };
+		62A52631159B488000819688 /* FaceRecognitionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FaceRecognitionPlugin.h; path = ../../FaceRecognitionPlugin.h; sourceTree = "<group>"; };
+		62A52633159B488D00819688 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = common.h; path = ../../common/common.h; sourceTree = "<group>"; };
+		62A52634159B48A800819688 /* Face.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Face.cpp; path = ../../face_database/Face.cpp; sourceTree = "<group>"; };
+		62A52635159B48A800819688 /* Face.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Face.h; path = ../../face_database/Face.h; sourceTree = "<group>"; };
+		62A52636159B48A800819688 /* MySQLite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MySQLite.cpp; path = ../../face_database/MySQLite.cpp; sourceTree = "<group>"; };
+		62A52637159B48A800819688 /* MySQLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MySQLite.h; path = ../../face_database/MySQLite.h; sourceTree = "<group>"; };
+		62A52638159B48A800819688 /* Person.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Person.cpp; path = ../../face_database/Person.cpp; sourceTree = "<group>"; };
+		62A52639159B48A800819688 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Person.h; path = ../../face_database/Person.h; sourceTree = "<group>"; };
+		62A5263D159B48C400819688 /* FaceDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FaceDetector.cpp; path = ../../face_detection/FaceDetector.cpp; sourceTree = "<group>"; };
+		62A5263E159B48C400819688 /* FaceDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FaceDetector.h; path = ../../face_detection/FaceDetector.h; sourceTree = "<group>"; };
+		62A5263F159B48C400819688 /* FaceExtractor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FaceExtractor.cpp; path = ../../face_detection/FaceExtractor.cpp; sourceTree = "<group>"; };
+		62A52640159B48C400819688 /* RegionOfInterest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RegionOfInterest.cpp; path = ../../face_detection/RegionOfInterest.cpp; sourceTree = "<group>"; };
+		62A52641159B48C400819688 /* RegionOfInterest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegionOfInterest.h; path = ../../face_detection/RegionOfInterest.h; sourceTree = "<group>"; };
+		62A52645159B491600819688 /* Eigenfaces.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Eigenfaces.cpp; path = ../../face_recognition/Eigenfaces.cpp; sourceTree = "<group>"; };
+		62A52646159B491600819688 /* Eigenfaces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Eigenfaces.h; path = ../../face_recognition/Eigenfaces.h; sourceTree = "<group>"; };
+		62A52647159B491600819688 /* Fisherfaces.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Fisherfaces.cpp; path = ../../face_recognition/Fisherfaces.cpp; sourceTree = "<group>"; };
+		62A52648159B491600819688 /* Fisherfaces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fisherfaces.h; path = ../../face_recognition/Fisherfaces.h; sourceTree = "<group>"; };
+		62A52649159B491600819688 /* RecImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecImage.h; path = ../../face_recognition/RecImage.h; sourceTree = "<group>"; };
+		62A5264A159B491600819688 /* Recognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Recognizer.cpp; path = ../../face_recognition/Recognizer.cpp; sourceTree = "<group>"; };
+		62A5264B159B491600819688 /* Recognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Recognizer.h; path = ../../face_recognition/Recognizer.h; sourceTree = "<group>"; };
+		62A5264F159B496B00819688 /* libopencv_core.2.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.2.0.dylib; path = ../../../../../../usr/local/lib/libopencv_core.2.2.0.dylib; sourceTree = "<group>"; };
+		62A52651159B499000819688 /* libopencv_highgui.2.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.2.2.0.dylib; path = ../../../../../../usr/local/lib/libopencv_highgui.2.2.0.dylib; sourceTree = "<group>"; };
+		62A52653159B49AB00819688 /* libopencv_imgproc.2.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_imgproc.2.2.0.dylib; path = ../../../../../../usr/local/lib/libopencv_imgproc.2.2.0.dylib; sourceTree = "<group>"; };
+		62A52655159B49C900819688 /* libopencv_objdetect.2.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_objdetect.2.2.0.dylib; path = ../../../../../../usr/local/lib/libopencv_objdetect.2.2.0.dylib; sourceTree = "<group>"; };
+		62A52657159B49FC00819688 /* libopencv_ml.2.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_ml.2.2.0.dylib; path = ../../../../../../usr/local/lib/libopencv_ml.2.2.0.dylib; sourceTree = "<group>"; };
+		62A52659159B4A1600819688 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		62A52620159B484000819688 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62A5265A159B4A1600819688 /* libsqlite3.0.dylib in Frameworks */,
+				62A52658159B49FC00819688 /* libopencv_ml.2.2.0.dylib in Frameworks */,
+				62A52656159B49C900819688 /* libopencv_objdetect.2.2.0.dylib in Frameworks */,
+				62A52654159B49AB00819688 /* libopencv_imgproc.2.2.0.dylib in Frameworks */,
+				62A52652159B499000819688 /* libopencv_highgui.2.2.0.dylib in Frameworks */,
+				62A52650159B496B00819688 /* libopencv_core.2.2.0.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		62A52618159B484000819688 = {
+			isa = PBXGroup;
+			children = (
+				62A52659159B4A1600819688 /* libsqlite3.0.dylib */,
+				62A52657159B49FC00819688 /* libopencv_ml.2.2.0.dylib */,
+				62A52655159B49C900819688 /* libopencv_objdetect.2.2.0.dylib */,
+				62A52653159B49AB00819688 /* libopencv_imgproc.2.2.0.dylib */,
+				62A52651159B499000819688 /* libopencv_highgui.2.2.0.dylib */,
+				62A5264F159B496B00819688 /* libopencv_core.2.2.0.dylib */,
+				62A52626159B484000819688 /* FaceRecTest */,
+				62A52624159B484000819688 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		62A52624159B484000819688 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				62A52623159B484000819688 /* FaceRecTest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		62A52626159B484000819688 /* FaceRecTest */ = {
+			isa = PBXGroup;
+			children = (
+				62A52645159B491600819688 /* Eigenfaces.cpp */,
+				62A52646159B491600819688 /* Eigenfaces.h */,
+				62A52647159B491600819688 /* Fisherfaces.cpp */,
+				62A52648159B491600819688 /* Fisherfaces.h */,
+				62A52649159B491600819688 /* RecImage.h */,
+				62A5264A159B491600819688 /* Recognizer.cpp */,
+				62A5264B159B491600819688 /* Recognizer.h */,
+				62A5263D159B48C400819688 /* FaceDetector.cpp */,
+				62A5263E159B48C400819688 /* FaceDetector.h */,
+				62A5263F159B48C400819688 /* FaceExtractor.cpp */,
+				62A52640159B48C400819688 /* RegionOfInterest.cpp */,
+				62A52641159B48C400819688 /* RegionOfInterest.h */,
+				62A52634159B48A800819688 /* Face.cpp */,
+				62A52635159B48A800819688 /* Face.h */,
+				62A52636159B48A800819688 /* MySQLite.cpp */,
+				62A52637159B48A800819688 /* MySQLite.h */,
+				62A52638159B48A800819688 /* Person.cpp */,
+				62A52639159B48A800819688 /* Person.h */,
+				62A52633159B488D00819688 /* common.h */,
+				62A52630159B488000819688 /* FaceRecognitionPlugin.cpp */,
+				62A52631159B488000819688 /* FaceRecognitionPlugin.h */,
+				62A52627159B484000819688 /* main.cpp */,
+				62A52629159B484000819688 /* FaceRecTest.1 */,
+			);
+			path = FaceRecTest;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		62A52622159B484000819688 /* FaceRecTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 62A5262D159B484000819688 /* Build configuration list for PBXNativeTarget "FaceRecTest" */;
+			buildPhases = (
+				62A5261F159B484000819688 /* Sources */,
+				62A52620159B484000819688 /* Frameworks */,
+				62A52621159B484000819688 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FaceRecTest;
+			productName = FaceRecTest;
+			productReference = 62A52623159B484000819688 /* FaceRecTest */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		62A5261A159B484000819688 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Reykjavik University";
+			};
+			buildConfigurationList = 62A5261D159B484000819688 /* Build configuration list for PBXProject "FaceRecTest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 62A52618159B484000819688;
+			productRefGroup = 62A52624159B484000819688 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				62A52622159B484000819688 /* FaceRecTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		62A5261F159B484000819688 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62A52628159B484000819688 /* main.cpp in Sources */,
+				62A52632159B488000819688 /* FaceRecognitionPlugin.cpp in Sources */,
+				62A5263A159B48A800819688 /* Face.cpp in Sources */,
+				62A5263B159B48A800819688 /* MySQLite.cpp in Sources */,
+				62A5263C159B48A800819688 /* Person.cpp in Sources */,
+				62A52642159B48C400819688 /* FaceDetector.cpp in Sources */,
+				62A52643159B48C400819688 /* FaceExtractor.cpp in Sources */,
+				62A52644159B48C400819688 /* RegionOfInterest.cpp in Sources */,
+				62A5264C159B491600819688 /* Eigenfaces.cpp in Sources */,
+				62A5264D159B491600819688 /* Fisherfaces.cpp in Sources */,
+				62A5264E159B491600819688 /* Recognizer.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		62A5262B159B484000819688 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		62A5262C159B484000819688 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		62A5262E159B484000819688 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		62A5262F159B484000819688 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		62A5261D159B484000819688 /* Build configuration list for PBXProject "FaceRecTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62A5262B159B484000819688 /* Debug */,
+				62A5262C159B484000819688 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		62A5262D159B484000819688 /* Build configuration list for PBXNativeTarget "FaceRecTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62A5262E159B484000819688 /* Debug */,
+				62A5262F159B484000819688 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 62A5261A159B484000819688 /* Project object */;
+}

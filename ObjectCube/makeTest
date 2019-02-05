@@ -1,0 +1,146 @@
+# http://www.gnu.org/software/make/manual/make.html
+
+SHELL = /bin/sh
+
+TARGET_NAME = ObjectCubeMakeGenerated
+
+#### Start of system configuration section. ####
+
+srcdir = .
+CC = g++ 
+
+# 32 or 64 bit (or anything other than those two for default behaviour)
+ARCH = 64
+
+#1 = yes, comment out = no
+SUPPORT_MONETDB = 1
+
+DEFS =  
+LIBS = -L/opt/local/lib -L/usr/local/monetdb/lib -L/usr/lib -ldl -lcppunit
+
+CDEBUG = -o -v -p 
+# add -c to CDEBUG to skip linking
+
+# Platform dependant
+OS = $(shell uname)
+LINUX_FLAGS = -I/opt/local/include
+
+# Platform independent
+CXXFLAGS = $(CDEBUG) -I. -I$(srcdir) -I/opt/local/include -I/usr/local/monetdb/include -I/opt/local/include/sdk/include $(DEFS) -O3
+
+ifeq ($(OS), Linux)
+	CXXFLAGS += $(LINUX_FLAGS) -DLINUX=1
+else ifeq ($(OS), Darwin)
+#	CXXFLAGS += 
+	ifeq ($(ARCH), 32)
+		CXXFLAGS += -arch i386
+		LDFLAGS += -arch i386
+	else ifeq ($(ARCH), 64)
+		CXXFLAGS += -arch x86_64
+		LDFLAGS += -arch x86_64
+	endif
+endif
+
+LDFLAGS = -ldl -lcppunit 
+
+VPATH = LayerShared UnitTests DataAccess/Root DataAccess/Canned DataAccess/SQLite DataAccess/MonetDB DataAccess/Oracle DataAccess/Factories Converters Tag Hierarchy TagSet Filters State Plugin UnitTests Boundaries /opt/local/include 
+
+ #### End of system configuration section. ####
+
+# --------------------------------------------------------   SHARED OBJECTS   --------------------------------------------------------
+
+SHARED_OBJECTS = \
+Exception.o TestIds.o DateSupport.o TimeSupport.o HubCommon.o RegExSupport.o LanguageCommon.o Parameters.o DebugInfo.o StringSupport.o
+
+# --------------------------------------------------------   DATA ACCESS   --------------------------------------------------------
+
+DATA_ACCESS_ROOT = \
+TagDataAccess.o AlphanumericalTagDataAccess.o NumericalTagDataAccess.o DateTagDataAccess.o TimeTagDataAccess.o \
+TagSetDataAccess.o ObjectDataAccess.o ObjectTagDataAccess.o HierarchyNodeDataAccess.o DimensionDataAccess.o \
+StateDataAccess.o StateTagDataAccess.o StateObjectDataAccess.o HubDataAccess.o \
+PluginTagSetDataAccess.o PluginDataAccess.o LanguageDataAccess.o \
+FilterDataAccess.o TagFilterDataAccess.o DimensionFilterDataAccess.o NumericalRangeFilterDataAccess.o \
+DateRangeFilterDataAccess.o TimeRangeFilterDataAccess.o Coordinate2DDataAccess.o BoundingBoxDataAccess.o
+
+DATA_ACCESS_MONETDB = \
+CommonMonetDB.o TagMonetDB.o AlphanumericalTagMonetDB.o NumericalTagMonetDB.o DateTagMonetDB.o TimeTagMonetDB.o \
+HierarchyNodeMonetDB.o DimensionMonetDB.o ObjectMonetDB.o TagSetMonetDB.o HubMonetDB.o PluginTagSetMonetDB.o \
+PluginMonetDB.o LanguageMonetDB.o TagFilterMonetDB.o DimensionFilterMonetDB.o NumericalRangeFilterMonetDB.o \
+DateRangeFilterMonetDB.o TimeRangeFilterMonetDB.o ObjectTagMonetDB.o
+
+DATA_ACCESS_FACTORIES = \
+DimensionDataAccessFactory.o HierarchyNodeDataAccessFactory.o ObjectDataAccessFactory.o \
+AlphanumericalTagDataAccessFactory.o NumericalTagDataAccessFactory.o TimeTagDataAccessFactory.o \
+DateTagDataAccessFactory.o TagDataAccessFactory.o TagSetDataAccessFactory.o HubDataAccessFactory.o \
+PluginTagSetDataAccessFactory.o PluginDataAccessFactory.o LanguageDataAccessFactory.o \
+FilterDataAccessFactory.o TagFilterDataAccessFactory.o DimensionFilterDataAccessFactory.o \
+NumericalRangeFilterDataAccessFactory.o DateRangeFilterDataAccessFactory.o TimeRangeFilterDataAccessFactory.o ObjectTagDataAccessFactory.o
+
+# --------------------------------------------------------   CONVERTERS   --------------------------------------------------------
+
+CONVERTERS = \
+AlphanumericalTagConverter.o NumericalTagConverter.o TimeTagConverter.o DateTagConverter.o TagConverter.o \
+TagConverterFactory.o HierarchyNodeConverter.o DimensionConverter.o ObjectConverter.o ObjectTagConverter.o TagSetConverter.o \
+StateTagConverter.o StateObjectConverter.o PluginConverter.o PluginTagSetConverter.o \
+FilterConverterFactory.o FilterConverter.o TagFilterConverter.o DimensionFilterConverter.o NumericalRangeFilterConverter.o \
+DateRangeFilterConverter.o TimeRangeFilterConverter.o Coordinate2DConverter.o BoundingBoxConverter.o
+
+# --------------------------------------------------------   LOGIC   --------------------------------------------------------
+
+LOGIC = \
+Tag.o AlphanumericalTag.o NumericalTag.o TimeTag.o DateTag.o TagFactory.o \
+HierarchyNode.o PersistentHierarchyNode.o VirtualHierarchyNode.o HierarchyNodeFactory.o \
+Dimension.o PersistentDimension.o VirtualDimension.o Object.o ObjectTag.o \
+TagBasedHierarchyNode.o DefaultHierarchyNode.o DefaultDimension.o \
+TagSet.o AlphanumericalTagSet.o NumericalTagSet.o TimeTagSet.o DateTagSet.o TagSetFactory.o \
+Filter.o TagFilter.o DimensionFilter.o NumericalRangeFilter.o DateRangeFilter.o TimeRangeFilter.o FilterFactory.o \
+StateTag.o StateObject.o StateDimensionNode.o StateDimension.o State.o \
+Hub.o Language.o Coordinate2D.o BoundingBox.o DimensionFactory.o MultiDimensionalView.o Cell.o
+
+# --------------------------------------------------------   PLUGIN   --------------------------------------------------------
+
+PLUGIN = \
+Plugin.o PluginTagSet.o ProcessObjectServer.o PluginLibrary.o PluginServer.o PluginCommon.o PluginObject.o PluginTagging.o PluginTaggingProcessed.o PluginReply.o
+
+# --------------------------------------------------------   UNIT TESTS   --------------------------------------------------------
+
+#I had to copy the cppunit header files to /usr/include since Apple GCC seems to be path limited :(
+UNIT_TESTS = \
+SetUpSQLite.o SetupMonetDB.o SetupOracle.o Setup.o SetupDataStorage.o\
+CommonSQLiteTest.o StateTest.o StateObjectTest.o TagSetTest.o NumericalTagSetTest.o AlphanumericalTagSetTest.o DateTagSetTest.o TimeTagSetTest.o \
+TagTest.o AlphanumericalTagTest.o NumericalTagTest.o DateTagTest.o TimeTagTest.o \
+VirtualDimensionTest.o VirtualHierarchyNodeTest.o PersistentDimensionTest.o PersistentHierarchyNodeTest.o \
+DefaultDimensionTest.o \
+DateRangeFilterTest.o DimensionFilterTest.o NumericalRangeFilterTest.o TagFilterTest.o TimeRangeFilterTest.o \
+ObjectTest.o HubTest.o \
+DateSupportTest.o RegExSupportTest.o TimeSupportTest.o StringSupportTest.o \
+PluginTest.o PluginTagSetTest.o LanguageTest.o
+ 
+# --------------------------------------------------------   MAIN   --------------------------------------------------------
+
+MAIN = main.o
+
+DATA_ACCESS_DB = 
+
+ifdef SUPPORT_MONETDB
+	CXXFLAGS += -DOC_MONETDB
+	LIBS += -lmapi
+	DATA_ACCESS_DB += $(DATA_ACCESS_MONETDB)
+endif
+
+OBJS = $(SHARED_OBJECTS) $(DATA_ACCESS_ROOT) $(DATA_ACCESS_DB) $(DATA_ACCESS_FACTORIES) \
+	 $(CONVERTERS) $(LOGIC) $(PLUGIN) $(CPP_UNIT) $(UNIT_TESTS) $(MAIN)
+
+.PHONY: all
+all: $(TARGET_NAME)
+
+.PHONY: $(TARGET_NAME)
+$(TARGET_NAME) : $(OBJS) 
+		$(CC) $(CXXFLAGS) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
+
+.PHONY: clean
+clean: 
+	rm -f *.o $(TARGET_NAME)
+
+
+

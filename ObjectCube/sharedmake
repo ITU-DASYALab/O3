@@ -1,0 +1,191 @@
+SHELL = /bin/sh
+TARGET_NAME =
+LIB_DIR=/usr/lib
+
+#### Start of system configuration section. ####
+
+srcdir = .
+CC = g++
+
+# 32 or 64 bit (or anything other than those two for default behaviour)
+ARCH = 64
+
+#1 = yes, comment out = no
+#SUPPORT_CANNED = 1
+#SUPPORT_SQLITE = 1 
+SUPPORT_MONETDB = 1
+#SUPPORT_ORACLE = 1
+
+DEFS =
+LIBS = -L/opt/local/lib -L/usr/local/monetdb/lib -L/usr/lib
+INCLUDES = -I/usr/local/monetdb/include -I/usr/local/include -I. -I/opt/local/include
+
+CDEBUG = 
+# add -c to CDEBUG to skip linking
+
+# Platform dependant
+OS = $(shell uname)
+LINUX_FLAGS =
+
+LDFLAGS = 
+
+# Platform independent
+CXXFLAGS = $(CDEBUG) $(INCLUDES) -O3 -fPIC -shared
+
+ifeq ($(OS), Linux)
+	CXXFLAGS += $(LINUX_FLAGS) -DLINUX=1
+	TARGET_NAME=libObjectCube.so
+	LDFLAGS = -fPIC -fvisibility=hidden -shared -Wl,-soname,$(TARGET_NAME).1 -ldl -lcppunit
+else ifeq ($(OS), Darwin)
+	TARGET_NAME=libObjectCube.dylib
+	CXXFLAGS += -dynamiclib -I/opt/local/include #-L/opt/local/lib 
+	LDFLAGS += -dynamiclib -L/opt/local/lib -current_version 1.0 -compatibility_version 1.0 -install_name $(LIB_DIR)/$(TARGET_NAME)
+	ifeq ($(ARCH), 32)
+		CXXFLAGS += -arch i386
+		LDFLAGS += -arch i386
+	else ifeq ($(ARCH), 64)
+		CXXFLAGS += -arch x86_64
+		LDFLAGS += -arch x86_64
+	endif
+endif
+
+
+VPATH = LayerShared UnitTests DataAccess/Root DataAccess/Canned DataAccess/SQLite DataAccess/MonetDB DataAccess/Oracle DataAccess/Factories Converters Tag Hierarchy TagSet Filters State Plugin UnitTests Boundaries /opt/local/include 
+
+ #### End of system configuration section. ####
+
+# --------------------------------------------------------   SHARED OBJECTS   --------------------------------------------------------
+
+SHARED_OBJECTS = \
+Exception.o TestIds.o DateSupport.o TimeSupport.o HubCommon.o RegExSupport.o LanguageCommon.o Parameters.o DebugInfo.o StringSupport.o
+
+# --------------------------------------------------------   DATA ACCESS   --------------------------------------------------------
+
+DATA_ACCESS_ROOT = \
+TagDataAccess.o AlphanumericalTagDataAccess.o NumericalTagDataAccess.o DateTagDataAccess.o TimeTagDataAccess.o \
+TagSetDataAccess.o ObjectDataAccess.o ObjectTagDataAccess.o HierarchyNodeDataAccess.o DimensionDataAccess.o \
+StateDataAccess.o StateTagDataAccess.o StateObjectDataAccess.o HubDataAccess.o \
+PluginTagSetDataAccess.o PluginDataAccess.o LanguageDataAccess.o \
+FilterDataAccess.o TagFilterDataAccess.o DimensionFilterDataAccess.o NumericalRangeFilterDataAccess.o \
+DateRangeFilterDataAccess.o TimeRangeFilterDataAccess.o Coordinate2DDataAccess.o BoundingBoxDataAccess.o
+
+DATA_ACCESS_CANNED = \
+TagCanned.o AlphanumericalTagCanned.o NumericalTagCanned.o DateTagCanned.o TimeTagCanned.o \
+HierarchyNodeCanned.o DimensionCanned.o TagSetCanned.o ObjectCanned.o HubCanned.o \
+PluginTagSetCanned.o PluginCanned.o LanguageCanned.o \
+TagFilterCanned.o DimensionFilterCanned.o NumericalRangeFilterCanned.o \
+DateRangeFilterCanned.o TimeRangeFilterCanned.o
+
+DATA_ACCESS_SQLITE = \
+CommonSQLite.o TagSQLite.o AlphanumericalTagSQLite.o NumericalTagSQLite.o DateTagSQLite.o TimeTagSQLite.o \
+HierarchyNodeSQLite.o DimensionSQLite.o ObjectSQLite.o TagSetSQLite.o HubSQLite.o PluginTagSetSQLite.o \
+PluginSQLite.o LanguageSQLite.o TagFilterSQLite.o DimensionFilterSQLite.o NumericalRangeFilterSQLite.o \
+DateRangeFilterSQLite.o TimeRangeFilterSQLite.o
+
+DATA_ACCESS_MONETDB = \
+CommonMonetDB.o TagMonetDB.o AlphanumericalTagMonetDB.o NumericalTagMonetDB.o DateTagMonetDB.o TimeTagMonetDB.o \
+HierarchyNodeMonetDB.o DimensionMonetDB.o ObjectMonetDB.o TagSetMonetDB.o HubMonetDB.o PluginTagSetMonetDB.o \
+PluginMonetDB.o LanguageMonetDB.o TagFilterMonetDB.o DimensionFilterMonetDB.o NumericalRangeFilterMonetDB.o \
+DateRangeFilterMonetDB.o TimeRangeFilterMonetDB.o ObjectTagMonetDB.o
+
+DATA_ACCESS_ORACLE = \
+CommonOracle.o TagOracle.o AlphanumericalTagOracle.o NumericalTagOracle.o DateTagOracle.o TimeTagOracle.o \
+HierarchyNodeOracle.o DimensionOracle.o ObjectOracle.o TagSetOracle.o HubOracle.o PluginTagSetOracle.o \
+PluginOracle.o LanguageOracle.o TagFilterOracle.o DimensionFilterOracle.o NumericalRangeFilterOracle.o \
+DateRangeFilterOracle.o TimeRangeFilterOracle.o
+
+DATA_ACCESS_FACTORIES = \
+DimensionDataAccessFactory.o HierarchyNodeDataAccessFactory.o ObjectDataAccessFactory.o \
+AlphanumericalTagDataAccessFactory.o NumericalTagDataAccessFactory.o TimeTagDataAccessFactory.o \
+DateTagDataAccessFactory.o TagDataAccessFactory.o TagSetDataAccessFactory.o HubDataAccessFactory.o \
+PluginTagSetDataAccessFactory.o PluginDataAccessFactory.o LanguageDataAccessFactory.o \
+FilterDataAccessFactory.o TagFilterDataAccessFactory.o DimensionFilterDataAccessFactory.o \
+NumericalRangeFilterDataAccessFactory.o DateRangeFilterDataAccessFactory.o TimeRangeFilterDataAccessFactory.o ObjectTagDataAccessFactory.o
+
+# --------------------------------------------------------   CONVERTERS   --------------------------------------------------------
+
+CONVERTERS = \
+AlphanumericalTagConverter.o NumericalTagConverter.o TimeTagConverter.o DateTagConverter.o TagConverter.o \
+TagConverterFactory.o HierarchyNodeConverter.o DimensionConverter.o ObjectConverter.o ObjectTagConverter.o TagSetConverter.o \
+StateTagConverter.o StateObjectConverter.o PluginConverter.o PluginTagSetConverter.o \
+FilterConverterFactory.o FilterConverter.o TagFilterConverter.o DimensionFilterConverter.o NumericalRangeFilterConverter.o \
+DateRangeFilterConverter.o TimeRangeFilterConverter.o Coordinate2DConverter.o BoundingBoxConverter.o
+
+# --------------------------------------------------------   LOGIC   --------------------------------------------------------
+
+LOGIC = \
+Tag.o AlphanumericalTag.o NumericalTag.o TimeTag.o DateTag.o TagFactory.o \
+HierarchyNode.o PersistentHierarchyNode.o VirtualHierarchyNode.o HierarchyNodeFactory.o \
+Dimension.o PersistentDimension.o VirtualDimension.o Object.o ObjectTag.o \
+TagBasedHierarchyNode.o DefaultHierarchyNode.o DefaultDimension.o \
+TagSet.o AlphanumericalTagSet.o NumericalTagSet.o TimeTagSet.o DateTagSet.o TagSetFactory.o \
+Filter.o TagFilter.o DimensionFilter.o NumericalRangeFilter.o DateRangeFilter.o TimeRangeFilter.o FilterFactory.o \
+StateTag.o StateObject.o StateDimensionNode.o StateDimension.o State.o \
+Hub.o Language.o Coordinate2D.o BoundingBox.o DimensionFactory.o MultiDimensionalView.o Cell.o
+
+# --------------------------------------------------------   PLUGIN   --------------------------------------------------------
+
+PLUGIN = \
+Plugin.o PluginTagSet.o ProcessObjectServer.o PluginLibrary.o PluginServer.o PluginCommon.o PluginObject.o PluginTagging.o PluginTaggingProcessed.o PluginReply.o
+
+# --------------------------------------------------------   UNIT TESTS   --------------------------------------------------------
+
+#I had to copy the cppunit header files to /usr/include since Apple GCC seems to be path limited :(
+UNIT_TESTS = \
+SetUpSQLite.o SetupMonetDB.o SetupOracle.o Setup.o SetupDataStorage.o\
+CommonSQLiteTest.o StateTest.o StateObjectTest.o TagSetTest.o NumericalTagSetTest.o AlphanumericalTagSetTest.o DateTagSetTest.o TimeTagSetTest.o \
+TagTest.o AlphanumericalTagTest.o NumericalTagTest.o DateTagTest.o TimeTagTest.o \
+VirtualDimensionTest.o VirtualHierarchyNodeTest.o PersistentDimensionTest.o PersistentHierarchyNodeTest.o \
+DefaultDimensionTest.o \
+DateRangeFilterTest.o DimensionFilterTest.o NumericalRangeFilterTest.o TagFilterTest.o TimeRangeFilterTest.o \
+ObjectTest.o HubTest.o \
+DateSupportTest.o RegExSupportTest.o TimeSupportTest.o StringSupportTest.o \
+PluginTest.o PluginTagSetTest.o LanguageTest.o
+ 
+# --------------------------------------------------------   CPP UNIT   --------------------------------------------------------
+
+# For some reason VPATH can't handle the path so it has to be included for now.
+
+
+# --------------------------------------------------------   MAIN   --------------------------------------------------------
+
+MAIN = main.o
+
+DATA_ACCESS_DB = 
+
+ifdef SUPPORT_SQLITE
+	CXXFLAGS += -DOC_SQLITE
+	LIBS += -lsqlite3 
+	DATA_ACCESS_DB += $(DATA_ACCESS_SQLITE)
+endif
+ifdef SUPPORT_MONETDB
+	CXXFLAGS += -DOC_MONETDB
+	LIBS += -lmapi
+	DATA_ACCESS_DB += $(DATA_ACCESS_MONETDB)
+endif
+ifdef SUPPORT_ORACLE
+CXXFLAGS += -DOC_ORACLE
+	LIBS += -locci -lclntsh
+	DATA_ACCESS_DB += $(DATA_ACCESS_ORACLE)
+endif
+ifdef SUPPORT_CANNED
+	CXXFLAGS += -DOC_CANNED
+	DATA_ACCESS_DB += $(DATA_ACCESS_CANNED)
+endif
+
+OBJS = $(SHARED_OBJECTS) $(DATA_ACCESS_ROOT) $(DATA_ACCESS_DB) $(DATA_ACCESS_FACTORIES) \
+	 $(CONVERTERS) $(LOGIC) $(PLUGIN) $(UNIT_TESTS) $(MAIN)
+
+.PHONY: all
+all: $(TARGET_NAME)
+
+.PHONY: $(TARGET_NAME)
+$(TARGET_NAME) : $(OBJS) 
+		$(CC) $(CXXFLAGS) $(LDFLAGS) -o $@ $(OBJS) $(LIBS) -lcppunit
+		sudo cp $(TARGET_NAME) $(LIB_DIR)
+.PHONY: clean
+clean: 
+	rm -f *.o $(TARGET_NAME)
+
+
+

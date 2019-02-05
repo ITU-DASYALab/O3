@@ -1,0 +1,93 @@
+Plugin runtime dependencies:
+----------------------------
+There are several runtime dependencies that must be set before the plugin will 
+work correctly. Currently these are hardcoded in the constructor of the 
+'FaceRecognition_Plugin' object you must:
+
+	- Set the path to the SQLite database file.
+	- Set the path to the training image storage directory.
+	- Set the paths to the traingin files for the face
+	  and eye detection objects. These files are on the SVN server and
+	  can be found under: 
+	  'trunk/ObjectCube/FaceRecognition_Plugin/face_detection/resources' 
+
+Finally run the createdb.sql script located int eh 'face_database' from
+the sqlite prompt.
+
+
+Plugin build dependencies:
+--------------------------
+The plugin has only two external dependencies which are OpenCV and SQLite.
+
+SQLite ships with OS X with universal libraries but is also installed as 
+part of the Python dependencies of ObjectCube it self.
+
+The easiest way to install opencv on OS X is to compile from source. To 
+be able to do this you must first install 'cmake' to generate UNIX make 
+files. Other than that most dependencies needed to get this code working 
+should ship with the OpenCV tarball which can be downloaded here:
+
+    http://sourceforge.net/projects/opencvlibrary/files/
+
+...choose the "opencv-unix" package.
+
+
+*********************************
+** IMPORTANT FOR OS X BUILDING **
+*********************************
+
+Some macports versions seem to contain a bug that causes the 'port' command 
+to ignore the '+universal' option causing the 'port' command to always build 
+a 64 bit version of OpenCV instead of a fat binary. The same applies to some 
+of some of the other software avalable from macports. Also keep in mind that 
+if you have this problem 'cmake' will try to link opencv to any 64 bit 
+dependencies of opencv that ports installed. Either run 'port uninstall' for 
+opencv and all of it's dependencies before running 'cmake' or some how force 
+'cmake' to not search the '/opt/*' tree during the config phase. Another 
+macports related problem is that that at the time of writing 'cmake' from 
+macports threw python unhandled python exceptions.  Use the official binary 
+distribution for OS X instead of the one from macports and keep in mind that 
+the macports cmake will be the defalt executable so you may have to invoke the 
+official cmake binary with an absolute path:
+
+    /usr/bin/cmake
+
+You can download the official cmake distribution for OS X here:
+
+    http://www.cmake.org/cmake/resources/software.html
+
+
+Compilation on OS X and Linux with CMAKE:
+-----------------------------------------
+
+1) Unpack:
+
+    $ tar -xzvf OpenCV-2.2.0.tar.bz2
+    $ cd OpenCV -2.2.0
+
+2) Create a build directory and run 'cmake':
+
+    $ mkir build; cd build
+    $ /usr/bin/cmake ..
+
+   This last command will generate a build environment for Unix systems 
+   in your build directory for a 64 bit OpenCV library. For a 32 bit library 
+   you must pass a few extra arguments to cmake:
+
+    $ /usr/bin/cmake -D CMAKE_OSX_ARCHITECTURES=i386 \
+      -D CMAKE_C_FLAGS=-m32 -D CMAKE_CXX_FLAGS=-m32 ..
+
+3) Compile:
+
+    $ sudo make -j8
+    $ sudo make install
+
+
+Compiling the Face Recognition Plugin:
+--------------------------------------
+
+    $ cd $OBJECTCUBE_WC_ROOT/trunk/FaceRecognition_Plugin/
+    $ make
+
+
+

@@ -1,0 +1,20 @@
+Intro:
+------
+The program expects a set of face images in a subdirectory of the execution directory 
+named 'att_faces'. This face database can be freely downloaded from the Cambridge 
+University Copmputer Lab's website:
+
+     http://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html
+
+Usage:
+------
+    eigenfacetest [-vs] [-t training image list] [-r test images list]
+        -v: Verbose mode.
+        -s: The projected face vectors can be retrieved and rendered
+            as images. This option shows the average face and a 
+            few of the eigenfaces.
+        -r: A list of test files with faces to try and recognize.
+        -t: A List of training files with faces to... well... train on.
+
+Running without any options causes the program to parse the test_original.txt and
+train_original.txt files.

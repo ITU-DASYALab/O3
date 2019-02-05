@@ -1,0 +1,45 @@
+begin;
+
+CREATE UNIQUE INDEX tag_set_access_description_u ON tag_set_access ("description" ASC);
+
+CREATE UNIQUE INDEX tag_set_type_description_u ON tag_set_type ("description" ASC);
+
+CREATE UNIQUE INDEX tag_set_name_u ON tag_set ("name" ASC);
+
+CREATE UNIQUE INDEX tag_type_description_u ON tag_type("description" ASC);
+
+create index tag_tag_set_id_i on tag( "tag_set_id" );
+
+CREATE INDEX tag_rgb_id ON rgb_tag USING gist(rgb);
+
+CREATE UNIQUE INDEX alphanum_tag_string_tag_set_u on alphanumerical_tag("tag_string", "tag_set_id");
+
+CREATE INDEX idx_fts_search ON alphanumerical_tag USING gin(to_tsvector('english', tag_string));
+
+CREATE UNIQUE INDEX numerical_tag_number_tag_set_u on numerical_tag("number", "tag_set_id" );
+
+CREATE INDEX numerical_tag_number_id_i on numerical_tag( "number", "id" );
+
+CREATE UNIQUE INDEX date_tag_date_tag_set_u on date_tag( "tag_date", "tag_set_id" );
+
+CREATE INDEX date_tag_date_id_i on date_tag( "tag_date", "id" );
+
+CREATE UNIQUE INDEX time_tag_time_tag_set_u on time_tag( "tag_time", "tag_set_id" );
+
+CREATE INDEX time_tag_time_id_i on time_tag( "tag_time", "id" );
+
+CREATE UNIQUE INDEX object_qualified_name_u on object("qualified_name");
+
+CREATE UNIQUE INDEX dimension_id_tag_id_u on dimension("id", "tag_id");
+
+CREATE UNIQUE INDEX plugin_name_u ON plugin("qualified_library_name" ASC);
+
+CREATE UNIQUE INDEX plugin_tag_set_plugin_name_u on plugin_tag_set( "plugin_id", "name" );
+
+CREATE UNIQUE INDEX plugin_tag_set_id_name_u on plugin_tag_set( "plugin_id", "tag_set_name" );
+
+CREATE UNIQUE INDEX filter_type_description_u ON filter_type ("description" ASC);
+
+CREATE UNIQUE INDEX language_description_u ON language("description" ASC);
+
+end;

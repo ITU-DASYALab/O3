@@ -1,0 +1,406 @@
+--Drop
+
+DROP TABLE IF EXISTS plugin_tag_set;
+DROP TABLE IF EXISTS plugin;
+DROP TABLE IF EXISTS dimension;
+DROP TABLE IF EXISTS object_tag;
+DROP TABLE IF EXISTS object;
+DROP TABLE IF EXISTS time_tag;
+DROP TABLE IF EXISTS date_tag;
+DROP TABLE IF EXISTS numerical_tag;
+DROP TABLE IF EXISTS alphanumerical_tag;
+DROP TABLE IF EXISTS tag;
+DROP TABLE IF EXISTS tag_type;
+DROP TABLE IF EXISTS tag_set;
+DROP TABLE IF EXISTS tag_set_type;
+DROP TABLE IF EXISTS tag_set_access;
+DROP TABLE IF EXISTS filter_type;
+DROP TABLE IF EXISTS translation;
+DROP TABLE IF EXISTS language;
+DROP TABLE IF EXISTS dimension_tag_object;
+
+
+--creation of objects
+
+CREATE TABLE "tag_set_access" (
+    "id" INTEGER PRIMARY KEY NOT NULL,
+    "description" TEXT NOT NULL
+);
+
+CREATE UNIQUE INDEX tag_set_access_pk on "tag_set_access"(id);
+
+CREATE UNIQUE INDEX "tag_set_access_description_u" ON "tag_set_access" ("description" ASC);
+
+CREATE TABLE "tag_set_type" (
+    "id" INTEGER PRIMARY KEY NOT NULL,
+    "description" TEXT NOT NULL
+);
+
+CREATE UNIQUE INDEX tag_set_type_pk on "tag_set_type"(id);
+
+CREATE UNIQUE INDEX "tag_set_type_description_u" ON "tag_set_type" ("description" ASC);
+
+CREATE TABLE "tag_set" (
+    	"id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    	"name" TEXT NOT NULL,
+    	"description" TEXT,
+    	"type_id" INTEGER NOT NULL,
+    	"access_id" INTEGER NOT NULL,
+    	foreign key(type_id) references tag_set_type(id),
+	foreign key(access_id) references tag_set_access(id)
+);
+
+CREATE UNIQUE INDEX "tag_set_pk" ON "tag_set" ("id" ASC);
+
+CREATE UNIQUE INDEX "tag_set_name_u" ON "tag_set" ("name" ASC); --see about relaxing this later
+
+CREATE TABLE "tag_type" (
+	"id" INTEGER PRIMARY KEY  NOT NULL, 
+	"description" varchar NOT NULL 
+);
+
+CREATE UNIQUE INDEX "tag_type_pk" ON "tag_type" ("id" ASC);
+
+CREATE UNIQUE INDEX "tag_type_description_u" ON "tag_type" ("description" ASC);
+
+CREATE TABLE "tag" (
+   "id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL,
+    "tag_set_id" INTEGER NOT NULL,
+"type_id" INTEGER NOT NULL,
+foreign key(tag_set_id) references tag_set(id),
+foreign key(type_id) references tag_type(id)
+);
+
+create index tag_tag_set_id_i on tag( tag_set_id );
+
+CREATE UNIQUE INDEX tag_pk on "tag"(id);
+
+CREATE TABLE alphanumerical_tag (
+	id integer primary key not null,
+	string text not null,
+	tag_set_id integer not null,
+	foreign key(id) references tag(id),
+	foreign key(tag_set_id) references tag_set(id)
+);
+
+CREATE UNIQUE INDEX alphanumerical_tag_pk on alphanumerical_tag(id);
+
+CREATE UNIQUE INDEX alphanumerical_tag_string_tag_set_u on alphanumerical_tag(string, tag_set_id);
+
+CREATE TABLE numerical_tag (
+	id integer primary key not null,
+	number integer not null,
+	tag_set_id integer not null,
+	foreign key(id) references tag(id),
+	foreign key(tag_set_id) references tag_set(id)
+);
+
+CREATE UNIQUE INDEX numerical_tag_pk on numerical_tag(id);
+
+CREATE UNIQUE INDEX numerical_tag_number_tag_set_u on numerical_tag( number, tag_set_id );
+
+CREATE INDEX numerical_tag_number_id_i on numerical_tag( number, id );
+
+CREATE TABLE date_tag (
+	id integer primary key not null,
+	date datetime not null,
+	tag_set_id integer not null,
+	foreign key(id) references tag(id),
+	foreign key(tag_set_id) references tag_set(id)
+);
+
+CREATE UNIQUE INDEX date_tag_pk on date_tag(id);
+
+CREATE UNIQUE INDEX date_tag_date_tag_set_u on date_tag( date, tag_set_id );
+
+CREATE INDEX date_tag_date_id_i on date_tag( date, id );
+
+CREATE TABLE time_tag (
+	id integer primary key not null,
+	time datetime not null,
+	tag_set_id integer not null,
+	foreign key(id) references tag(id),
+	foreign key(tag_set_id) references tag_set(id)
+);
+
+CREATE UNIQUE INDEX time_tag_pk on time_tag(id);
+
+CREATE UNIQUE INDEX time_tag_time_tag_set_u on time_tag( time, tag_set_id );
+
+CREATE INDEX time_tag_time_id_i on time_tag( time, id );
+
+
+CREATE TABLE "object" (
+    "id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL,    
+	"qualified_name" TEXT NOT NULL
+);
+
+CREATE UNIQUE INDEX object_pk on object(id);
+
+CREATE UNIQUE INDEX object_qualified_name_u on object(qualified_name);
+
+CREATE TABLE object_tag (
+    "object_id" INTEGER NOT NULL,
+    "tag_id" INTEGER NOT NULL,
+    upper_left_x integer,
+    upper_left_y integer,
+    lower_right_x integer,
+    lower_right_y integer,
+    PRIMARY KEY( object_id, tag_id),
+    FOREIGN KEY ( object_id) REFERENCES object(id),
+    FOREIGN KEY ( tag_id) REFERENCES tag(id)
+);
+
+CREATE UNIQUE INDEX object_tag_pk on object_tag(object_id, tag_id);
+
+CREATE TABLE "dimension" (
+	"id" INTEGER NOT NULL,
+	node_id integer not null,
+	tag_set_id integer not null,
+	tag_id integer not null,
+	child_category_title text,
+	left_border integer not null,
+	right_border integer not null,
+	primary key(id, node_id),
+	foreign key(tag_set_id) references tag_set(id),
+	foreign key(tag_id) references tag(id)
+);
+
+CREATE UNIQUE INDEX dimension_pk on "dimension"(id, node_id);
+
+CREATE UNIQUE INDEX dimension_id_tag_id_u on "dimension"(id, tag_id);
+
+
+CREATE TABLE "plugin" (
+	"id" integer PRIMARY KEY  AUTOINCREMENT  NOT NULL , 
+	"qualified_library_name" TEXT NOT NULL , "description" text
+);
+
+CREATE UNIQUE INDEX "plugin_pk" ON "plugin" ("id" ASC);
+
+CREATE UNIQUE INDEX "plugin_name_u" ON "plugin" ("qualified_library_name" ASC);
+
+CREATE TABLE plugin_tag_set(
+	id integer PRIMARY KEY  AUTOINCREMENT  NOT NULL , 
+	plugin_id integer not null,
+	tag_set_type_id integer not null,
+	tag_type_id integer not null,
+	name text not null,
+	tag_set_name text not null,
+	tag_set_id integer,
+	foreign key(plugin_id) references plugin(id),
+	foreign key(tag_set_type_id) references tag_set_type(id),
+	foreign key(tag_type_id) references tag_type(id),
+	foreign key(tag_set_id) references tag_set(id)
+);
+
+CREATE UNIQUE INDEX plugin_tag_set_pk on plugin_tag_set(id);
+
+CREATE UNIQUE INDEX plugin_tag_set_plugin_name_u on plugin_tag_set( plugin_id, name );
+
+CREATE UNIQUE INDEX plugin_tag_set_plugin_tag_set_name_u on plugin_tag_set( plugin_id, tag_set_name );
+
+
+CREATE TABLE "filter_type" (
+	"id" INTEGER PRIMARY KEY  NOT NULL, 
+	"description" varchar NOT NULL 
+);
+
+CREATE UNIQUE INDEX "filter_type_pk" ON "filter_type" ("id" ASC);
+
+CREATE UNIQUE INDEX "filter_type_description_u" ON "filter_type" ("description" ASC);
+
+
+CREATE TABLE "language" (
+	"id" INTEGER PRIMARY KEY  NOT NULL, 
+	"description" varchar NOT NULL 
+);
+
+CREATE UNIQUE INDEX "language_pk" ON "language" ("id" ASC);
+
+CREATE UNIQUE INDEX "language_description_u" ON "language" ("description" ASC);
+
+CREATE TABLE "translation" (
+    "id" integer primary key autoincrement not null,
+    "entity_name" text not null,
+    "entity_id" integer not null,
+    "language_id" integer not null,
+    "translated_text" text not null,
+    foreign key(language_id) references language(id)    
+);
+
+create unique index translation_u on translation(entity_name, entity_id, language_id);
+
+create table dimension_tag_object as
+select d.id as dimension_id, d.node_id, ot.tag_id, ot.object_id, ot.upper_left_x, ot.upper_left_y, ot.lower_right_x, ot.lower_right_y, d.left_border, d.right_border
+from dimension d, object_tag ot
+where d.tag_id = ot.tag_id
+order by d.node_id;
+
+create unique index  dimension_tag_object_pk on dimension_tag_object(node_id, tag_id, object_id);
+
+create index dimension_t_o_borders_idx on dimension_tag_object(dimension_id, left_border, right_border);
+
+
+-- Data creation
+
+INSERT INTO tag_set_access values(1, 'System');
+INSERT INTO tag_set_access values(2, 'User');
+
+INSERT INTO tag_set_type values(1, 'Alphanumerical tag-set');
+INSERT INTO tag_set_type values(2, 'Numerical tag-set');
+INSERT INTO tag_set_type values(3, 'Date tag-set');
+INSERT INTO tag_set_type values(4, 'Time tag-set');
+
+INSERT INTO tag_type values(1, 'Alphanumerical tag');
+INSERT INTO tag_type values(2, 'Numerical tag');
+INSERT INTO tag_type values(3, 'Date tag');
+INSERT INTO tag_type values(4, 'Time tag');
+
+INSERT INTO FILTER_TYPE VALUES( 1, 'Tag filter');
+INSERT INTO FILTER_TYPE VALUES( 2, 'Dimension filter');
+INSERT INTO FILTER_TYPE VALUES( 3, 'Numerical range filter');
+INSERT INTO FILTER_TYPE VALUES( 4, 'Time range filter');
+INSERT INTO FILTER_TYPE VALUES( 5, 'Date range filter');
+
+INSERT INTO LANGUAGE VALUES( 1, 'Íslenska');
+INSERT INTO LANGUAGE VALUES( 2, 'English');
+
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagType', 1, 1, 'Texta tag' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagType', 2, 1, 'Númerískt tag' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagType', 3, 1, 'Dagsetningar tag' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagType', 4, 1, 'Tíma tag' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagType', 1, 2, 'Alphanumerical tag' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagType', 2, 2, 'Numerical tag' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagType', 3, 2, 'Date tag' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagType', 4, 2, 'Time tag' );
+
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagSetType', 1, 1, 'Texta tag-sett' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagSetType', 2, 1, 'Númerískt tag-sett' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagSetType', 3, 1, 'Dagsetningar tag-sett' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagSetType', 4, 1, 'Tíma tag-sett' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagSetType', 1, 2, 'Alphanumerical tag-set' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagSetType', 2, 2, 'Numerical tag-set' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagSetType', 3, 2, 'Date tag-set' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagSetType', 4, 2, 'Time tag-set' );
+
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagSetAccessType', 1, 1, 'Kerfis aðgangur' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagSetAccessType', 2, 1, 'Notenda aðgangur' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagSetAccessType', 1, 2, 'System access' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'TagSetAccessType', 2, 2, 'User access' );
+
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'FilterType', 1, 1, 'Tag filter' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'FilterType', 2, 1, 'Víddar filter' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'FilterType', 3, 1, 'Númerabils filter' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'FilterType', 4, 1, 'Tímabils filter' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'FilterType', 5, 1, 'Dagsetningarbils filter' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'FilterType', 1, 2, 'Tag filter' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'FilterType', 2, 2, 'Dimensional filter' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'FilterType', 3, 2, 'Numerical range filter' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'FilterType', 4, 2, 'Time range filter' );
+INSERT INTO TRANSLATION( ENTITY_NAME, ENTITY_ID, LANGUAGE_ID, TRANSLATED_TEXT) VALUES( 'FilterType', 5, 2, 'Date range filter' );
+
+-- Uncategorized support
+INSERT INTO tag_set ( name, description, type_id, access_id ) values( 'UNCATEGORIZED', 'A system tag-set for the Uncategorized tag', 1, 1);
+INSERT INTO tag (tag_set_id, type_id) values( (select ifnull( seq, 0) from sqlite_sequence where name = 'tag_set'), 1);
+INSERT INTO alphanumerical_tag values( (select ifnull( seq, 0) from sqlite_sequence where name = 'tag'), 'Uncategorized', (select ifnull( seq, 0) from sqlite_sequence where name = 'tag_set'));
+
+
+-- EXIF Plugin insertion (change the name for Linux)
+--Plugins
+insert into plugin (qualified_library_name, description) values( 'libEXIF_Plugin.so', 'This is a plugin that extracts EXIF information from photographs' );
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 1, 1, 'Exif.Image.Make', 'Camera manufacturer');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 1, 1, 'Exif.Image.Model', 'Camera model');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 1, 1, 'Exif.Image.Artist', 'Image artist');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 1, 1, 'Exif.Image.Software', 'Processing software');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 3, 3, 'Exif.Image.DateTime - DATE', 'Image creation date');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 4, 4, 'Exif.Image.DateTime - TIME', 'Image creation time');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 2, 2, 'Exif.Photo.ExposureTime', 'Exposure time (sec)');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 2, 2, 'Exif.Photo.FNumber', 'F-Number');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 2, 2, 'Exif.Photo.ISOSpeedRatings', 'ISO Speed rating');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 3, 3, 'Exif.Photo.DateTimeOriginal - DATE', 'Photograph taken - Date');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 4, 4, 'Exif.Photo.DateTimeOriginal - TIME', 'Photograph taken - Time');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 2, 2, 'Exif.Photo.ShutterSpeedValue', 'Shutter speed');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 2, 2, 'Exif.Photo.ApertureValue', 'Aperture value');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 2, 2, 'Exif.Photo.FocalLength', 'Focal length (mm)');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 2, 2, 'Exif.Photo.PixelXDimension', 'X-Axis pixel dimension');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 2, 2, 'Exif.Photo.PixelYDimension', 'Y-Axis pixel dimension');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 2, 2, 'Exif.Iop.RelatedImageWidth', 'Original image X-Axis pixel dimension');
+
+insert into plugin_tag_set (plugin_id, tag_set_type_id, tag_type_id, name, tag_set_name) values
+( (select ifnull( seq, 0) from sqlite_sequence where name = 'plugin'), 2, 2, 'Exif.Iop.RelatedImageLength', 'Original image Y-Axis pixel dimension');
+
+
+
+--Color plugin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

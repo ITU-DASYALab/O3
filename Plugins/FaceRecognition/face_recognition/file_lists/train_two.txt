@@ -1,0 +1,2 @@
+s1;att_faces/s1/1.pgm
+s2;att_faces/s2/1.pgm
