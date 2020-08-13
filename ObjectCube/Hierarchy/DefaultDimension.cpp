@@ -78,7 +78,7 @@ DefaultDimension::~DefaultDimension()
 
 DefaultHierarchyNode* DefaultDimension::getNode( const string& name )
 {
-	auto_ptr<AlphanumericalTag> tag( AlphanumericalTag::fetch( getTagSetId(), name ) ); ///VERY SLOW, ToDo:  FIX
+	unique_ptr<AlphanumericalTag> tag( AlphanumericalTag::fetch( getTagSetId(), name ) ); ///VERY SLOW, ToDo:  FIX
 	TagBasedHierarchyNode* node = 0;
 	dynamic_cast<DefaultHierarchyNode*>( getRoot() )->getNode_( tag->getId(), &node );
 	if( node == 0 )

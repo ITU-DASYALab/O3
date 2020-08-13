@@ -18,7 +18,7 @@
 using std::shared_ptr;
 #else
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 #include "../Boundaries/BoundingBox.h"
@@ -56,7 +56,7 @@ namespace ObjectCube
 		//Each dimension node can only appear once for each filter.
 		map<int, int> filterAndDimensionNodeIds_; //<filterId, DimensionNodeId>
 		Tag* tag_;
-		shared_ptr<BoundingBox> boundingBox_;
+		std::shared_ptr<BoundingBox> boundingBox_;
 		
 		void cleanup_();
 

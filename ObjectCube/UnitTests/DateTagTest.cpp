@@ -43,7 +43,7 @@ void DateTagTest::testFetchByIdCanned()
 	Hub::setDataAccessType( Hub::CANNED );
 
 	int id = 1;
-	auto_ptr<Tag> tag( Tag::fetch_( id ) );
+	unique_ptr<Tag> tag( Tag::fetch_( id ) );
 	DateTag expected( TEST_DATE_TAG_VALUE_YEAR, TEST_DATE_TAG_VALUE_MONTH, TEST_DATE_TAG_VALUE_DAY );
 	expected.setId_( id );
 	expected.setTagSetId_( 2 );	
@@ -58,7 +58,7 @@ void DateTagTest::testFetchByDimensionIdAndNumberCanned()
 	cerr << "\nDateTagTest::testFetchByDimensionIdAndNumberCanned = ";
 	Hub::setDataAccessType( Hub::CANNED );
 	
-	auto_ptr<DateTag> tag( DateTag::fetch( TEST_DATE_TAG_SET_ID, TEST_DATE_TAG_VALUE_YEAR, TEST_DATE_TAG_VALUE_MONTH, TEST_DATE_TAG_VALUE_DAY ) );
+	unique_ptr<DateTag> tag( DateTag::fetch( TEST_DATE_TAG_SET_ID, TEST_DATE_TAG_VALUE_YEAR, TEST_DATE_TAG_VALUE_MONTH, TEST_DATE_TAG_VALUE_DAY ) );
 	
 	DateTag expected( TEST_DATE_TAG_VALUE_YEAR, TEST_DATE_TAG_VALUE_MONTH, TEST_DATE_TAG_VALUE_DAY );
 	expected.setId_( TEST_DATE_TAG_ID_CANNED );
@@ -168,7 +168,7 @@ void DateTagTest::testInUseOracle()
 
 void DateTagTest::testFetchById_( int id )
 {
-	auto_ptr<Tag> tag( Tag::fetch_( id ) );
+	unique_ptr<Tag> tag( Tag::fetch_( id ) );
 	
 	DateTag expected( TEST_DATE_TAG_VALUE_YEAR, TEST_DATE_TAG_VALUE_MONTH, TEST_DATE_TAG_VALUE_DAY );
 	expected.setId_( id );
@@ -180,7 +180,7 @@ void DateTagTest::testFetchById_( int id )
 
 void DateTagTest::testFetchByTagSetIdAndDate_( int id )
 {
-	auto_ptr<DateTag> tag( DateTag::fetch( TEST_DATE_TAG_SET_ID, TEST_DATE_TAG_VALUE_YEAR, TEST_DATE_TAG_VALUE_MONTH, TEST_DATE_TAG_VALUE_DAY ) );
+	unique_ptr<DateTag> tag( DateTag::fetch( TEST_DATE_TAG_SET_ID, TEST_DATE_TAG_VALUE_YEAR, TEST_DATE_TAG_VALUE_MONTH, TEST_DATE_TAG_VALUE_DAY ) );
 	
 	DateTag expected( TEST_DATE_TAG_VALUE_YEAR, TEST_DATE_TAG_VALUE_MONTH, TEST_DATE_TAG_VALUE_DAY );
 	expected.setId_( id );

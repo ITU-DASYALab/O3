@@ -64,7 +64,7 @@ HierarchyNode& DefaultHierarchyNode::operator=( const HierarchyNode& node )
 
 void DefaultHierarchyNode::addBranch_( DefaultHierarchyNode* node )
 {
-	shared_ptr<DefaultHierarchyNode> pNode( new DefaultHierarchyNode() );
+	std::shared_ptr<DefaultHierarchyNode> pNode( new DefaultHierarchyNode() );
 	*pNode.get() = *node;
 	children_.push_back( pNode );
 }

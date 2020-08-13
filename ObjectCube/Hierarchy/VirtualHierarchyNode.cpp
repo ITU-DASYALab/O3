@@ -102,7 +102,7 @@ void VirtualHierarchyNode::init_()
 
 void VirtualHierarchyNode::addBranch_( VirtualHierarchyNode* node )
 {
-	shared_ptr<VirtualHierarchyNode> newNode( new VirtualHierarchyNode() );
+	std::shared_ptr<VirtualHierarchyNode> newNode( new VirtualHierarchyNode() );
 	*newNode.get() = *node;
 	children_.push_back( newNode );
 }
@@ -116,7 +116,7 @@ void VirtualHierarchyNode::addBranch_( int parentNodeId, VirtualHierarchyNode* c
 		return;
 	}
 	
-	for( vector<shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
+	for( vector<std::shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
 	{
 		VirtualHierarchyNode* vhNode = dynamic_cast<VirtualHierarchyNode*>( (*itr).get() );
 		if( vhNode->getId() == parentNodeId )
@@ -213,7 +213,7 @@ void VirtualHierarchyNode::propertyInSubtree_( const string& property, int tagId
 //		cout << "VIRTUAL -> dimensionId: " << getDimensionId() <<  " tagId: " << tagId << " nodeId: " << getId() << endl;
 	}
 	
-	for( vector<shared_ptr<HierarchyNode> >::const_iterator itr = children_.begin(); itr != children_.end(); ++itr )
+	for( vector<std::shared_ptr<HierarchyNode> >::const_iterator itr = children_.begin(); itr != children_.end(); ++itr )
 	{
 		const VirtualHierarchyNode* vhNode = dynamic_cast<const VirtualHierarchyNode*>( (*itr).get() );
 		vhNode->propertyInSubtree_( property, tagId, tagIds );

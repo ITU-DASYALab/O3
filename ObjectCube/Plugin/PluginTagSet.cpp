@@ -20,7 +20,7 @@ using namespace ObjectCube;
 
 void PluginTagSet::updateTagSetId( int tagSetId )
 {
-	auto_ptr<PluginTagSetDataAccess> dataAccess( PluginTagSetDataAccessFactory::create() );
+	unique_ptr<PluginTagSetDataAccess> dataAccess( PluginTagSetDataAccessFactory::create() );
 	dataAccess->updateTagSetId( getId(), tagSetId );
 	setTagSetId_( tagSetId );
 }

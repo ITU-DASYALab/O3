@@ -32,7 +32,7 @@ void PluginServer::init_()
 {
 	DebugInfo::getDebugInfo()->output("PluginServer", "init_", "1" );
 	
-	auto_ptr<PluginDataAccess> dataAccess( PluginDataAccessFactory::create() );
+	unique_ptr<PluginDataAccess> dataAccess( PluginDataAccessFactory::create() );
 	std::cout << "PluginServer::init_() 1" << std::endl;
 	vector<PluginDataAccess*> plugins = dataAccess->fetchAll();  //Using the data access class here is dirty, but we have no implementation classes for abstract class ProcessObjectPlugin
 	

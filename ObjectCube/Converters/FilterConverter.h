@@ -20,11 +20,11 @@ namespace ObjectCube
 	class FilterConverter
 	{
 	public:
-		static auto_ptr<FilterDataAccess> logicToDataAccess( const Filter* filter );
+		static unique_ptr<FilterDataAccess> logicToDataAccess( const Filter* filter );
 		static vector<FilterDataAccess*> logicToDataAccess( const vector<Filter*>& filters );
 		
 	protected:
-		virtual auto_ptr<FilterDataAccess> logicToDataAccess_( const Filter* filter ) = 0;
+		virtual unique_ptr<FilterDataAccess> logicToDataAccess_( const Filter* filter ) = 0;
 		
 	};
 }

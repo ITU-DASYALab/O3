@@ -15,7 +15,7 @@
 using std::shared_ptr;
 #else
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 #include "TagBasedHierarchyNode.h"
@@ -53,7 +53,7 @@ namespace ObjectCube
 		
 		//void getNode_( int tagId, PersistentHierarchyNode& node );
 		
-		PersistentHierarchyNode* constructTree_( vector<shared_ptr<HierarchyNode> >& nodes, int& offset );
+		PersistentHierarchyNode* constructTree_( vector<std::shared_ptr<HierarchyNode> >& nodes, int& offset );
 		
 	public:
 		virtual HierarchyNode& operator=( const HierarchyNode& node );

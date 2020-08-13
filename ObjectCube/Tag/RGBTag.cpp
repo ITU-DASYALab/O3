@@ -58,17 +58,17 @@ void RGBTag::setName( string name )
 
 void RGBTag::fetchImp_()  //Reconsider this design
 {
-	auto_ptr<RGBTagDataAccess> dataAccess( RGBTagDataAccessFactory::create() );
+	unique_ptr<RGBTagDataAccess> dataAccess( RGBTagDataAccessFactory::create() );
 
 	if( getId() > 0 )
 	{
-		shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getId() ) ) );
+		std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getId() ) ) );
 		*this = *dynamic_cast<RGBTag*>( tag.get() );
 		return;
 	}
 	else if( getTagSetId() > 0 && getName().length() > 0 )
 	{
-		shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getTagSetId(), getName() ) ) );
+		std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getTagSetId(), getName() ) ) );
 		*this = *dynamic_cast<RGBTag*>( tag.get() );
 		return;
 	}
@@ -78,15 +78,15 @@ void RGBTag::fetchImp_()  //Reconsider this design
 
 void RGBTag::create_()
 {
-	auto_ptr<RGBTagDataAccess> dataAccess( dynamic_cast<RGBTagDataAccess*>( TagConverter::logicToDataAccess( this ).release() ) );
-	shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->create() ) );
+	unique_ptr<RGBTagDataAccess> dataAccess( dynamic_cast<RGBTagDataAccess*>( TagConverter::logicToDataAccess( this ).release() ) );
+	std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->create() ) );
 	*this = *dynamic_cast<RGBTag*>( tag.get() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
 void RGBTag::delete_()
 {
-	auto_ptr<RGBTagDataAccess> dataAccess( RGBTagDataAccessFactory::create() ); //The existence of the tag on objects is checked here rather than using State to limit dependence
+	unique_ptr<RGBTagDataAccess> dataAccess( RGBTagDataAccessFactory::create() ); //The existence of the tag on objects is checked here rather than using State to limit dependence
 	
 	if( inUse() )
 	{

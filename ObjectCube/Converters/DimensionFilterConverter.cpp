@@ -15,9 +15,9 @@ using namespace ObjectCube;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-auto_ptr<FilterDataAccess> DimensionFilterConverter::logicToDataAccess_( const Filter* filter )
+unique_ptr<FilterDataAccess> DimensionFilterConverter::logicToDataAccess_( const Filter* filter )
 {
-	auto_ptr<DimensionFilterDataAccess> filterDA( dynamic_cast<DimensionFilterDataAccess*>( FilterConverter::logicToDataAccess_( filter ).release() ) );
+	unique_ptr<DimensionFilterDataAccess> filterDA( dynamic_cast<DimensionFilterDataAccess*>( FilterConverter::logicToDataAccess_( filter ).release() ) );
 		
 	const DimensionFilter* dFilter = dynamic_cast<const DimensionFilter*> ( filter );
 	if( !dFilter )
@@ -31,6 +31,6 @@ auto_ptr<FilterDataAccess> DimensionFilterConverter::logicToDataAccess_( const F
 	filterDA->setRightBorder( dFilter->getRightBorder() );
 	filterDA->setDimensionTypeId( dFilter->getDimensionTypeId() );
 	
-	return auto_ptr<FilterDataAccess>( filterDA.release() );
+	return unique_ptr<FilterDataAccess>( filterDA.release() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________

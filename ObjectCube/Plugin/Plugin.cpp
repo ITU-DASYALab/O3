@@ -25,7 +25,7 @@ Plugin::Plugin()
 
 Plugin Plugin::fetch( int id )
 {
-	auto_ptr<PluginDataAccess> dataAccess( PluginDataAccessFactory::create() );
+	unique_ptr<PluginDataAccess> dataAccess( PluginDataAccessFactory::create() );
 	return PluginConverter::dataAccessToLogic( dataAccess->fetch( id ) );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________

@@ -16,9 +16,9 @@ using namespace ObjectCube;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-shared_ptr<PersistentHierarchyNode> HierarchyNodeConverter::dataAccessToLogic( HierarchyNodeDataAccess* hierarchyNodeDA )
+std::shared_ptr<PersistentHierarchyNode> HierarchyNodeConverter::dataAccessToLogic( HierarchyNodeDataAccess* hierarchyNodeDA )
 {
-	shared_ptr<PersistentHierarchyNode> hierarchyNode( new PersistentHierarchyNode() );
+	std::shared_ptr<PersistentHierarchyNode> hierarchyNode( new PersistentHierarchyNode() );
 	hierarchyNode->setId_( hierarchyNodeDA->getId() );
 	hierarchyNode->setDimensionId_( hierarchyNodeDA->getDimensionId() );
 	hierarchyNode->setTagSetId_( hierarchyNodeDA->getTagSetId() );
@@ -51,9 +51,9 @@ HierarchyNodeDataAccess* HierarchyNodeConverter::logicToDataAccess( const Persis
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-vector<shared_ptr<HierarchyNode> > HierarchyNodeConverter::dataAccessToLogic( vector<HierarchyNodeDataAccess*> hierarchyNodesDA )
+vector<std::shared_ptr<HierarchyNode> > HierarchyNodeConverter::dataAccessToLogic( vector<HierarchyNodeDataAccess*> hierarchyNodesDA )
 {
-	vector<shared_ptr<HierarchyNode> > nodes;
+	vector<std::shared_ptr<HierarchyNode> > nodes;
 	for( vector<HierarchyNodeDataAccess*>::iterator itr = hierarchyNodesDA.begin(); itr != hierarchyNodesDA.end(); ++itr )
 	{
 		nodes.push_back( HierarchyNodeConverter::dataAccessToLogic( *itr ) );
@@ -62,10 +62,10 @@ vector<shared_ptr<HierarchyNode> > HierarchyNodeConverter::dataAccessToLogic( ve
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-vector<HierarchyNodeDataAccess*> HierarchyNodeConverter::logicToDataAccess( const vector<shared_ptr<HierarchyNode> >& hierarchyNodes )
+vector<HierarchyNodeDataAccess*> HierarchyNodeConverter::logicToDataAccess( const vector<std::shared_ptr<HierarchyNode> >& hierarchyNodes )
 {
 	vector<HierarchyNodeDataAccess*> hierarchyNodesDA;
-	for( vector<shared_ptr<HierarchyNode> >::const_iterator itr = hierarchyNodes.begin(); itr != hierarchyNodes.end(); ++itr )
+	for( vector<std::shared_ptr<HierarchyNode> >::const_iterator itr = hierarchyNodes.begin(); itr != hierarchyNodes.end(); ++itr )
 	{
 		
 		hierarchyNodesDA.push_back( HierarchyNodeConverter::logicToDataAccess( dynamic_cast<PersistentHierarchyNode*>( (*itr).get() ) ) );

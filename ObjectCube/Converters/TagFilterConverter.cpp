@@ -14,11 +14,11 @@ using namespace ObjectCube;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-auto_ptr<FilterDataAccess> TagFilterConverter::logicToDataAccess_( const Filter* filter )
+unique_ptr<FilterDataAccess> TagFilterConverter::logicToDataAccess_( const Filter* filter )
 {
-	auto_ptr<TagFilterDataAccess> filterDA( dynamic_cast<TagFilterDataAccess*>( FilterConverter::logicToDataAccess_( filter ).release() ) );
+	unique_ptr<TagFilterDataAccess> filterDA( dynamic_cast<TagFilterDataAccess*>( FilterConverter::logicToDataAccess_( filter ).release() ) );
 	filterDA->setTagId( dynamic_cast<const TagFilter*>( filter )->getTagId() );
 	
-	return auto_ptr<FilterDataAccess>( filterDA.release() );
+	return unique_ptr<FilterDataAccess>( filterDA.release() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________

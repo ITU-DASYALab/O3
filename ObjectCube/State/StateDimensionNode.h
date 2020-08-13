@@ -49,7 +49,7 @@ namespace ObjectCube
 		
 		void getSubHierarchyLevel_( vector<StateDimensionNode>& subHierarchyLevelNodes, int level );
 	private:
-		const HierarchyNode* /*const*/ node_; //Points to the shared_ptr contents in TagSet.  Do not memory manage!
+		const HierarchyNode* /*const*/ node_; //Points to the std::shared_ptr contents in TagSet.  Do not memory manage!
 		vector<StateDimensionNode> branches_;
 		vector<int> objectIds_;
 		

@@ -631,7 +631,7 @@ void TagSetTest::testAddTag_()
 		const AlphanumericalTag* tagExpected = dynamic_cast<AlphanumericalTagSet*>( tagSet)->getAlphanumericalTag( dynamic_cast<const AlphanumericalTag*>( tag )->getName() ); //Testing getTag(name)
 		CPPUNIT_ASSERT_EQUAL( *dynamic_cast<Tag*>( const_cast<AlphanumericalTag*>( tagExpected ) ), *const_cast<Tag*>( tag ) ); 
 	}
-	auto_ptr<Tag> persistentTag( Tag::fetch_( tag->getId() ) ); //Persistence testing
+	unique_ptr<Tag> persistentTag( Tag::fetch_( tag->getId() ) ); //Persistence testing
 	CPPUNIT_ASSERT_EQUAL( *persistentTag.get(), *tag );	
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
@@ -661,7 +661,7 @@ void TagSetTest::testGetTagId_( int tagId )
 	TagSet* tagSet = hub->getTagSet( TEST_ALPHANUMERICAL_TAG_SET_ID );
 	
 	const Tag* tag = tagSet->getTag( tagId );
-	auto_ptr<Tag> expected( Tag::fetch_( tagId ) );
+	unique_ptr<Tag> expected( Tag::fetch_( tagId ) );
 	
 	CPPUNIT_ASSERT_EQUAL( *expected, *const_cast<Tag*>( tag ) );	
 }
@@ -673,7 +673,7 @@ void TagSetTest::testGetTagName_( int tagId, string name )
 	TagSet* tagSet = hub->getTagSet( TEST_ALPHANUMERICAL_TAG_SET_ID );
 	
 	const AlphanumericalTag* tag = dynamic_cast<AlphanumericalTagSet*>( tagSet )->getAlphanumericalTag( name );
-	auto_ptr<Tag> expected( Tag::fetch_( tagId ) );
+	unique_ptr<Tag> expected( Tag::fetch_( tagId ) );
 	
 	CPPUNIT_ASSERT_EQUAL( *expected, *dynamic_cast<Tag*>( const_cast<AlphanumericalTag*>( tag ) ) );
 }

@@ -23,7 +23,7 @@ namespace ObjectCube
 	{
 	public:
 		static PluginTagSet dataAccessToLogic( const PluginTagSetDataAccess* pluginTagSetDA );
-		static auto_ptr<PluginTagSetDataAccess> logicToDataAccess( const PluginTagSet& pluginTagSet );
+		static unique_ptr<PluginTagSetDataAccess> logicToDataAccess( const PluginTagSet& pluginTagSet );
 		
 		static vector<PluginTagSet> dataAccessToLogic( const vector<PluginTagSetDataAccess*>& pluginTagSetsDA );
 		static vector<PluginTagSetDataAccess*> logicToDataAccess( const vector<PluginTagSet>& pluginTagSets );

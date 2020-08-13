@@ -16,7 +16,7 @@ using std::shared_ptr;
 #else
 #include <memory>
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 #include "CommonPostgreSQL.h"

@@ -55,7 +55,7 @@ void AlphanumericalTagTest::testFetchByIdCanned()
 	Hub::setDataAccessType( Hub::CANNED );
 
 	int id = 1;
-	auto_ptr<Tag> tag( Tag::fetch_( id ) );
+	unique_ptr<Tag> tag( Tag::fetch_( id ) );
 	AlphanumericalTag expected("Canned tag");
 	expected.setId_( id );
 	expected.setTagSetId_( 2 );	
@@ -69,7 +69,7 @@ void AlphanumericalTagTest::testFetchByDimensionIdAndNameCanned()
 	cerr << "\nAlphanumericalTagTest::testFetchByDimensionIdAndNameCanned = ";
 	Hub::setDataAccessType( Hub::CANNED );
 	
-	auto_ptr<AlphanumericalTag> tag( AlphanumericalTag::fetch( TEST_ALPHANUMERICAL_TAG_SET_ID, HubCommon::getUncategorizedDimensionName() ) );
+	unique_ptr<AlphanumericalTag> tag( AlphanumericalTag::fetch( TEST_ALPHANUMERICAL_TAG_SET_ID, HubCommon::getUncategorizedDimensionName() ) );
 	
 	AlphanumericalTag expected( HubCommon::getUncategorizedDimensionName() );
 	expected.setId_( TEST_ALPHANUMERICAL_TAG_ID_CANNED );
@@ -182,7 +182,7 @@ void AlphanumericalTagTest::testIcelandicCharactersMonetDB()
 	const Tag* tagReturned = testTagSet->getTag( tagCreated->getId() );
 	CPPUNIT_ASSERT_EQUAL( *tagCreated, *tagReturned );
 	
-	auto_ptr<AlphanumericalTag> tagFetched( AlphanumericalTag::fetch( testTagSet->getId(), tagName ) );
+	unique_ptr<AlphanumericalTag> tagFetched( AlphanumericalTag::fetch( testTagSet->getId(), tagName ) );
 	
 	CPPUNIT_ASSERT_EQUAL( *tagCreated, *dynamic_cast<Tag*>( tagFetched.get() ) );
 }
@@ -227,7 +227,7 @@ void AlphanumericalTagTest::testControlCharactersHandlingOracle()
 
 void AlphanumericalTagTest::testFetchById_( int id, const string& tagName )
 {
-	auto_ptr<Tag> tag( Tag::fetch_( id ) );
+	unique_ptr<Tag> tag( Tag::fetch_( id ) );
 	
 	AlphanumericalTag expected( tagName );
 	expected.setId_( id );
@@ -239,7 +239,7 @@ void AlphanumericalTagTest::testFetchById_( int id, const string& tagName )
 
 void AlphanumericalTagTest::testFetchByDimensionIdAndName_( int id, const string& tagName )
 {
-	auto_ptr<AlphanumericalTag> tag( AlphanumericalTag::fetch( TEST_ALPHANUMERICAL_TAG_SET_ID, tagName ) );
+	unique_ptr<AlphanumericalTag> tag( AlphanumericalTag::fetch( TEST_ALPHANUMERICAL_TAG_SET_ID, tagName ) );
 	
 	AlphanumericalTag expected( tagName );
 	expected.setId_( id );
@@ -283,7 +283,7 @@ void AlphanumericalTagTest::testControlCharactersHandling_( const string& tagNam
 	const Tag* tagReturned = testTagSet->getTag( tagCreated->getId() );
 	CPPUNIT_ASSERT_EQUAL( *tagCreated, *tagReturned );
 	
-	auto_ptr<AlphanumericalTag> tagFetched( AlphanumericalTag::fetch( testTagSet->getId(), tagName ) );
+	unique_ptr<AlphanumericalTag> tagFetched( AlphanumericalTag::fetch( testTagSet->getId(), tagName ) );
 
 	CPPUNIT_ASSERT_EQUAL( *tagCreated, *dynamic_cast<Tag*>( tagFetched.get() ) );
 }

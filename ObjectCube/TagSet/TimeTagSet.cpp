@@ -18,7 +18,7 @@
 using std::shared_ptr;
 #else
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 #include "TagSet.h"
@@ -78,7 +78,7 @@ TimeTagSet* TimeTagSet::create()
 
 const TimeTag* /*const*/ TimeTagSet::getTimeTag( int hours, int minutes, int seconds, int milliseconds ) const
 {
-	for( vector<shared_ptr<Tag> >::const_iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
+	for( vector<std::shared_ptr<Tag> >::const_iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
 	{
 		if( (*itr)->getTypeId() == TagCommon::TIME )
 		{
@@ -151,7 +151,7 @@ void TimeTagSet::loadVirtualDimensions_()
 	//Create virtual dimensions (Consider putting this in DB)
 	// Hour
 	
-	shared_ptr<VirtualDimension> hourVDimension( new VirtualDimension( getId(), "[0-9]{2}:", "[0-9]{2}", "Hour"  ) );
+	std::shared_ptr<VirtualDimension> hourVDimension( new VirtualDimension( getId(), "[0-9]{2}:", "[0-9]{2}", "Hour"  ) );
 	for( int i = 0; i < 24; i++ )
 	{
 		stringstream stringStream;
@@ -161,7 +161,7 @@ void TimeTagSet::loadVirtualDimensions_()
 	dimensions_.push_back( hourVDimension );
 	
 	// Minute
-	shared_ptr<VirtualDimension> minuteVDimension( new VirtualDimension( getId(), ":[0-9]{2}:", "[0-9]{2}", "Minute" ) );
+	std::shared_ptr<VirtualDimension> minuteVDimension( new VirtualDimension( getId(), ":[0-9]{2}:", "[0-9]{2}", "Minute" ) );
 	for( int i = 0; i < 60; i++ )
 	{
 		stringstream stringStream;
@@ -171,7 +171,7 @@ void TimeTagSet::loadVirtualDimensions_()
 	dimensions_.push_back( minuteVDimension );
 	
 	// Second
-	shared_ptr<VirtualDimension> secondVDimension( new VirtualDimension( getId(), ":[0-9]{2}.", "[0-9]{2}", "Second" ) );
+	std::shared_ptr<VirtualDimension> secondVDimension( new VirtualDimension( getId(), ":[0-9]{2}.", "[0-9]{2}", "Second" ) );
 	for( int i = 0; i < 60; i++ )
 	{
 		stringstream stringStream;

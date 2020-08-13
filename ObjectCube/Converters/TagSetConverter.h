@@ -15,7 +15,7 @@
 using std::shared_ptr;
 #else
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 #include <vector>
@@ -28,10 +28,10 @@ namespace ObjectCube
 	class TagSetConverter
 	{
 	public:
-		static shared_ptr<TagSet> dataAccessToLogic( TagSetDataAccess* tagSetDA );
+		static std::shared_ptr<TagSet> dataAccessToLogic( TagSetDataAccess* tagSetDA );
 		static TagSetDataAccess* logicToDataAccess( const TagSet* dimension );
 		
-		static vector<shared_ptr<TagSet> > dataAccessToLogic( vector<TagSetDataAccess*> dimensionsDA );
+		static vector<std::shared_ptr<TagSet> > dataAccessToLogic( vector<TagSetDataAccess*> dimensionsDA );
 		static vector<TagSetDataAccess*> logicToDataAccess( const vector<TagSet*>& dimensions );
 				
 	};

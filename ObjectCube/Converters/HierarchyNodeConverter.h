@@ -17,7 +17,7 @@
 using std::shared_ptr;
 #else
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 #include "../Hierarchy/PersistentHierarchyNode.h"
@@ -29,11 +29,11 @@ namespace ObjectCube
 	class HierarchyNodeConverter
 	{
 	public:
-		static shared_ptr<PersistentHierarchyNode> dataAccessToLogic( HierarchyNodeDataAccess* hierarchyNodeDA );
+		static std::shared_ptr<PersistentHierarchyNode> dataAccessToLogic( HierarchyNodeDataAccess* hierarchyNodeDA );
 		static HierarchyNodeDataAccess* logicToDataAccess( const PersistentHierarchyNode* hierarchyNode );
 		
-		static vector<shared_ptr<HierarchyNode> > dataAccessToLogic( vector<HierarchyNodeDataAccess*> hierarchyNodesDA );
-		static vector<HierarchyNodeDataAccess*> logicToDataAccess( const vector<shared_ptr<HierarchyNode> >& hierarchyNodes );
+		static vector<std::shared_ptr<HierarchyNode> > dataAccessToLogic( vector<HierarchyNodeDataAccess*> hierarchyNodesDA );
+		static vector<HierarchyNodeDataAccess*> logicToDataAccess( const vector<std::shared_ptr<HierarchyNode> >& hierarchyNodes );
 	};
 }
 

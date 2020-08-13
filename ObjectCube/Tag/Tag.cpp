@@ -49,12 +49,12 @@ void Tag::init_()
 
 Tag* Tag::fetch_( int id )
 {
-	auto_ptr<TagDataAccess> dataAccess( TagDataAccessFactory::create() );
-	shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( id ) ) );  //Creates the correct type (new)
+	unique_ptr<TagDataAccess> dataAccess( TagDataAccessFactory::create() );
+	std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( id ) ) );  //Creates the correct type (new)
 	
 	tag->fetchImp_();
 	
-	auto_ptr<Tag> tagToReturn( TagFactory::create( tag->getTypeId() ) );
+	unique_ptr<Tag> tagToReturn( TagFactory::create( tag->getTypeId() ) );
 	*tagToReturn.get() = *tag.get();
 	return tagToReturn.release();
 }
@@ -62,14 +62,14 @@ Tag* Tag::fetch_( int id )
 
 void Tag::create_()
 {
-	auto_ptr<TagDataAccess> dataAccess( TagConverter::logicToDataAccess( this ) );
+	unique_ptr<TagDataAccess> dataAccess( TagConverter::logicToDataAccess( this ) );
 	*this = *TagConverter::dataAccessToLogic( dataAccess->create() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
 void Tag::delete_()
 {
-	auto_ptr<TagDataAccess> dataAccess( TagDataAccessFactory::create() ); //The existence of the tag on objects is checked here rather than using State to limit dependence
+	unique_ptr<TagDataAccess> dataAccess( TagDataAccessFactory::create() ); //The existence of the tag on objects is checked here rather than using State to limit dependence
 	
 	if( inUse() )
 	{
@@ -105,7 +105,7 @@ const string Tag::typeAsString( int tagTypeId )
 
 int Tag::inUse() const
 {
-	auto_ptr<TagDataAccess> dataAccess( TagDataAccessFactory::create() );
+	unique_ptr<TagDataAccess> dataAccess( TagDataAccessFactory::create() );
 	return dataAccess->inUse( getId() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________

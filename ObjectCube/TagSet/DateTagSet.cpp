@@ -76,7 +76,7 @@ DateTagSet* DateTagSet::create()
 
 const DateTag* /*const*/ DateTagSet::getDateTag( int year, int month, int dayOfMonth ) const
 {
-	for( vector<shared_ptr<Tag> >::const_iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
+	for( vector<std::shared_ptr<Tag> >::const_iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
 	{
 		if( (*itr)->getTypeId() == TagCommon::DATE )
 		{
@@ -139,7 +139,7 @@ void DateTagSet::loadVirtualDimensions_()
 	//Create virtual dimensions (Consider putting this in DB)
 	
 	// Month
-	shared_ptr<VirtualDimension> monthVDimension( new VirtualDimension( getId(), "-[0-9]{2}-", "[0-9]{2}", "Month" ) );
+	std::shared_ptr<VirtualDimension> monthVDimension( new VirtualDimension( getId(), "-[0-9]{2}-", "[0-9]{2}", "Month" ) );
 	for( int i = 1; i < 13; i++ )
 	{
 		stringstream stringStream;
@@ -149,7 +149,7 @@ void DateTagSet::loadVirtualDimensions_()
 	dimensions_.push_back( monthVDimension );
 	
 	// Day of month
-	shared_ptr<VirtualDimension> dayOfMonthVDimension( new VirtualDimension( getId(), "-[0-9]{2}$", "[0-9]{2}$", "Day of month" ) );
+	std::shared_ptr<VirtualDimension> dayOfMonthVDimension( new VirtualDimension( getId(), "-[0-9]{2}$", "[0-9]{2}$", "Day of month" ) );
 	for( int i = 1; i < 32; i++ )
 	{
 		stringstream stringStream;
@@ -159,7 +159,7 @@ void DateTagSet::loadVirtualDimensions_()
 	dimensions_.push_back( dayOfMonthVDimension );
 	
 	// Day of week (0-6) 
-	shared_ptr<VirtualDimension> dayOfWeekVDimension( new VirtualDimension( getId(), &DateSupport::dayOfWeek, "Day of Week" ) );
+	std::shared_ptr<VirtualDimension> dayOfWeekVDimension( new VirtualDimension( getId(), &DateSupport::dayOfWeek, "Day of Week" ) );
 	for( int i = 0; i < 7; i++ )
 	{
 		stringstream stringStream;
@@ -169,7 +169,7 @@ void DateTagSet::loadVirtualDimensions_()
 	dimensions_.push_back( dayOfWeekVDimension );
 	
 	// Week of year (1-53, ISO-8601)
-	shared_ptr<VirtualDimension> weekOfYearVDimension( new VirtualDimension( getId(), &DateSupport::weekOfYear, "Week of Year" ) );
+	std::shared_ptr<VirtualDimension> weekOfYearVDimension( new VirtualDimension( getId(), &DateSupport::weekOfYear, "Week of Year" ) );
 	for( int i = 1; i < 54; i++ )
 	{
 		stringstream stringStream;
@@ -179,7 +179,7 @@ void DateTagSet::loadVirtualDimensions_()
 	dimensions_.push_back( weekOfYearVDimension );
 	
 	// Quarter (1-4)
-	shared_ptr<VirtualDimension> quarterVDimension( new VirtualDimension( getId(), &DateSupport::quarter, "Quarter" ) );
+	std::shared_ptr<VirtualDimension> quarterVDimension( new VirtualDimension( getId(), &DateSupport::quarter, "Quarter" ) );
 	for( int i = 1; i < 5; i++ )
 	{
 		stringstream stringStream;
@@ -189,7 +189,7 @@ void DateTagSet::loadVirtualDimensions_()
 	dimensions_.push_back( quarterVDimension );
 	
 	// Weekend (only filter using the root)
-	shared_ptr<VirtualDimension> weekendVDimension( new VirtualDimension( getId(), &DateSupport::dayOfWeek, "Day of Week" ) );
+	std::shared_ptr<VirtualDimension> weekendVDimension( new VirtualDimension( getId(), &DateSupport::dayOfWeek, "Day of Week" ) );
 
 	stringstream ssSaturday, ssSunday;
 	ssSaturday << DateSupport::SATURDAY;

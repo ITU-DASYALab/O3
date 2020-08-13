@@ -56,7 +56,7 @@ void NumericalTagTest::testFetchByIdCanned()
 	Hub::setDataAccessType( Hub::CANNED );
 
 	int id = 1;
-	auto_ptr<Tag> tag( Tag::fetch_( id ) );
+	unique_ptr<Tag> tag( Tag::fetch_( id ) );
 	NumericalTag expected( TEST_NUMERICAL_TAG_VALUE );
 	expected.setId_( id );
 	expected.setTagSetId_( 2 );	
@@ -71,7 +71,7 @@ void NumericalTagTest::testFetchByDimensionIdAndNumberCanned()
 	cerr << "\nNumericalTagTest::testFetchByDimensionIdAndNumberCanned = ";
 	Hub::setDataAccessType( Hub::CANNED );
 	
-	auto_ptr<NumericalTag> tag( NumericalTag::fetch( TEST_NUMERICAL_TAG_SET_ID, TEST_NUMERICAL_TAG_VALUE ) );
+	unique_ptr<NumericalTag> tag( NumericalTag::fetch( TEST_NUMERICAL_TAG_SET_ID, TEST_NUMERICAL_TAG_VALUE ) );
 	
 	NumericalTag expected( TEST_NUMERICAL_TAG_VALUE );
 	expected.setId_( TEST_NUMERICAL_TAG_ID_CANNED );
@@ -182,7 +182,7 @@ void NumericalTagTest::testInUseOracle()
 
 void NumericalTagTest::testFetchById_( int id )
 {
-	auto_ptr<Tag> tag( Tag::fetch_( id ) );
+	unique_ptr<Tag> tag( Tag::fetch_( id ) );
 	
 	NumericalTag expected( TEST_NUMERICAL_TAG_VALUE );
 	expected.setId_( id );
@@ -194,7 +194,7 @@ void NumericalTagTest::testFetchById_( int id )
 
 void NumericalTagTest::testFetchByTagSetIdAndNumber_( int tagId )
 {
-	auto_ptr<NumericalTag> tag( NumericalTag::fetch( TEST_NUMERICAL_TAG_SET_ID, TEST_NUMERICAL_TAG_VALUE ) );
+	unique_ptr<NumericalTag> tag( NumericalTag::fetch( TEST_NUMERICAL_TAG_SET_ID, TEST_NUMERICAL_TAG_VALUE ) );
 	
 	NumericalTag expected( TEST_NUMERICAL_TAG_VALUE );
 	expected.setId_( tagId );

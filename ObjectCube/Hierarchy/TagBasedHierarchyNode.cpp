@@ -89,7 +89,7 @@ map<int, int> TagBasedHierarchyNode::getSubtreeTagIds_() const
 	map<int, int> tagIds;
 	tagIds.insert( pair<int, int>( getTagId(), getId() ) );  //The root of the subtree
 	//	cout << "PERSISTENT -> tagId: " << getTagId() << " nodeId: " << getId() << endl;
-	for( vector<shared_ptr<HierarchyNode> >::const_iterator itr = children_.begin(); itr != children_.end(); ++itr )
+	for( vector<std::shared_ptr<HierarchyNode> >::const_iterator itr = children_.begin(); itr != children_.end(); ++itr )
 	{	
 		map<int, int> tempIds = (*itr)->getSubtreeTagIds();
 		tagIds.insert( tempIds.begin(), tempIds.end() );
@@ -114,7 +114,7 @@ void TagBasedHierarchyNode::updateBorders_( int& borderCounter )
 	//	cout << "name: " << tag.name() << endl;
 	//	cout << "left: " << leftBorder_ << endl;
 	
-	for( vector<shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
+	for( vector<std::shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
 	{
 		TagBasedHierarchyNode* tbNode = dynamic_cast<TagBasedHierarchyNode*>( (*itr).get() );
 		tbNode->updateBorders_( borderCounter );
@@ -138,7 +138,7 @@ void TagBasedHierarchyNode::getNode_( int tagId, TagBasedHierarchyNode** node )
 		return;
 	}
 	
-	for( vector<shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
+	for( vector<std::shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
 	{
 		TagBasedHierarchyNode* phNode = dynamic_cast<TagBasedHierarchyNode*>( (*itr).get() );	
 		phNode->getNode_( tagId, node );

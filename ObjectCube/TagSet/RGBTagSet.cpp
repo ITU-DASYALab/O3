@@ -70,7 +70,7 @@ RGBTagSet* RGBTagSet::create()
 
 const RGBTag* /*const*/ RGBTagSet::getRGBTag( string name ) const
 {
-	for( vector<shared_ptr<Tag> >::const_iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
+	for( vector<std::shared_ptr<Tag> >::const_iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
 	{
 		if( (*itr)->getTypeId() == TagCommon::RGB )
 		{

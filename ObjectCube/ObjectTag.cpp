@@ -144,13 +144,13 @@ bool ObjectTag::operator()( const ObjectTag& x ) const
 void ObjectTag::confirmTagging()
 {
 	setConfirmed( true );
-	auto_ptr<ObjectTagDataAccess> dataAccess( ObjectTagConverter::logicToDataAccess( *this ) );
+	unique_ptr<ObjectTagDataAccess> dataAccess( ObjectTagConverter::logicToDataAccess( *this ) );
 	dataAccess->modify();
 	
 	//Let plug-ins know
 	string tagSetName = Hub::getHub()->getTagSet( getTag()->getTagSetId() )->getName();
 	string tagValue = getTag()->valueAsString();
-	shared_ptr<PluginServer> pluginServer = Hub::getHub()->getPluginServer();
+	std::shared_ptr<PluginServer> pluginServer = Hub::getHub()->getPluginServer();
 	pluginServer->getProcessObjectServer().confirmTagging( getObjectId_(), tagSetName, getBoundingBox(), tagValue );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________

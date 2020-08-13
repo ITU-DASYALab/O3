@@ -31,9 +31,9 @@ Plugin PluginConverter::dataAccessToLogic( const PluginDataAccess* pluginDA )
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-auto_ptr<PluginDataAccess> PluginConverter::logicToDataAccess( const Plugin& plugin )
+unique_ptr<PluginDataAccess> PluginConverter::logicToDataAccess( const Plugin& plugin )
 {
-	auto_ptr<PluginDataAccess> pluginDA( PluginDataAccessFactory::create() );
+	unique_ptr<PluginDataAccess> pluginDA( PluginDataAccessFactory::create() );
 	
 	pluginDA->setId( plugin.getId() );
 	pluginDA->setName( plugin.getName() );

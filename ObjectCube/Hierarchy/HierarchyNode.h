@@ -19,7 +19,7 @@
 using std::shared_ptr;
 #else
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 #include "../LayerShared/HierarchyNodeCommon.h"
@@ -91,7 +91,7 @@ namespace ObjectCube
 		string name_;
 		string childCategoryTitle_;
 		
-		vector<shared_ptr<HierarchyNode> > children_;
+		vector<std::shared_ptr<HierarchyNode> > children_;
 		
 	private:
 		void init_();

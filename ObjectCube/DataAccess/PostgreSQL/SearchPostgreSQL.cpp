@@ -174,8 +174,8 @@ void SearchPostgreSQL::processAlphanumericalObject(const Tag* tag, int TagId)
 		if(!existObject(c[1].as<int>())){
 			count++;
 			cout << "Mynd: " << c[0].as<string>() << " iter: " << count << endl;
-			auto_ptr<ObjectDataAccess> objectDataAccess( ObjectDataAccessFactory::create() );
-			auto_ptr<ObjectTagDataAccess> objectTagDataAccess( ObjectTagDataAccessFactory::create() );
+			unique_ptr<ObjectDataAccess> objectDataAccess( ObjectDataAccessFactory::create() );
+			unique_ptr<ObjectTagDataAccess> objectTagDataAccess( ObjectTagDataAccessFactory::create() );
 			ObjectDataAccess* object = objectDataAccess->fetch(c[0].as<string>());
 			int objectId = object->getId();
 			objectTagDataAccess->setTagId(tag->getId());
@@ -334,7 +334,7 @@ void SearchPostgreSQL::removeDimension(const string& tag)
 
 	if(TagSetId != -1) // If tagsetid = -1, there is no rank dim 
 	{
-		auto_ptr<TagSetDataAccess> dataAccess( TagSetDataAccessFactory::create() );
+		unique_ptr<TagSetDataAccess> dataAccess( TagSetDataAccessFactory::create() );
 		dataAccess->setId(TagSetId);
 		dataAccess->erase();
 	}

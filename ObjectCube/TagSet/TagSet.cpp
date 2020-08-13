@@ -38,7 +38,7 @@ using namespace std;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-//map<int, shared_ptr<Tag> > TagSet::allTags_;
+//map<int, std::shared_ptr<Tag> > TagSet::allTags_;
 map<int, Tag*> TagSet::allTags_;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
@@ -101,7 +101,7 @@ void TagSet::copyValues_( const TagSet& tagSet )  //A helper function for = oper
 	const vector<Tag*> tags = tagSet.getTags();
 	for( vector<Tag*>::const_iterator tagItr = tags.begin(); tagItr != tags.end(); ++tagItr )
 	{
-		shared_ptr<Tag> tag( TagFactory::create( (*tagItr)->getTypeId() ) );
+		std::shared_ptr<Tag> tag( TagFactory::create( (*tagItr)->getTypeId() ) );
 		*tag.get() = *(*tagItr);
 		tags_.push_back( tag );
 	}
@@ -110,7 +110,7 @@ void TagSet::copyValues_( const TagSet& tagSet )  //A helper function for = oper
 	const vector<Filter*> filters = tagSet.getFilters();
 	for( vector<Filter*>::const_iterator filterItr = filters.begin(); filterItr != filters.end(); ++filterItr )
 	{
-		shared_ptr<Filter> filter( FilterFactory::create( (*filterItr)->getTypeId() ) );
+		std::shared_ptr<Filter> filter( FilterFactory::create( (*filterItr)->getTypeId() ) );
 		*filter.get() = *(*filterItr);
 		filters_.push_back( filter );
 	}
@@ -119,7 +119,7 @@ void TagSet::copyValues_( const TagSet& tagSet )  //A helper function for = oper
 	const vector<Dimension*> dimensions = tagSet.getDimensions();
 	for( vector<Dimension*>::const_iterator dimensionItr = dimensions.begin(); dimensionItr != dimensions.end(); ++dimensionItr )
 	{
-		shared_ptr<Dimension> dimension( DimensionFactory::create( (*dimensionItr)->getTypeId() ) );
+		std::shared_ptr<Dimension> dimension( DimensionFactory::create( (*dimensionItr)->getTypeId() ) );
 		*dimension.get() = *(*dimensionItr);
 		dimensions_.push_back( dimension );
 	}
@@ -171,7 +171,7 @@ PersistentDimension* TagSet::createPersistentDimension( const Tag* tag )
 	//Validate that the tag has been created and belongs to the dimension
 	getTag( tag->getId() );  //Throws exception if it does not belong to this dimension
 	//Create the Dimension
-	shared_ptr<PersistentDimension> persistentDimension( new PersistentDimension( getId(), tag ) );
+	std::shared_ptr<PersistentDimension> persistentDimension( new PersistentDimension( getId(), tag ) );
 	persistentDimension->create_();
 	int dimensionId = persistentDimension->getId();
 	dimensions_.push_back( persistentDimension );
@@ -181,7 +181,7 @@ PersistentDimension* TagSet::createPersistentDimension( const Tag* tag )
 
 void TagSet::deleteDimension( int id )
 {
-	for( vector<shared_ptr<Dimension> >::iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
+	for( vector<std::shared_ptr<Dimension> >::iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
 	{
 		if( (*itr)->getId() == id )
 		{
@@ -198,7 +198,7 @@ void TagSet::deleteDimension( int id )
 
 Dimension* TagSet::getDimension( int dimensionId )
 {
-	for( vector<shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
+	for( vector<std::shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
 	{
 		if( (*itr)->getId() == dimensionId )
 		{
@@ -211,7 +211,7 @@ Dimension* TagSet::getDimension( int dimensionId )
 
 Dimension* TagSet::getDimension( const string& name )
 {
-	for( vector<shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
+	for( vector<std::shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
 	{
 		if( (*itr)->getRoot()->getName() == name )
 		{
@@ -224,7 +224,7 @@ Dimension* TagSet::getDimension( const string& name )
 
 const Dimension* TagSet::getDimension( int dimensionId ) const
 {
-	for( vector<shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
+	for( vector<std::shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
 	{
 		if( (*itr)->getId() == dimensionId )
 		{
@@ -237,7 +237,7 @@ const Dimension* TagSet::getDimension( int dimensionId ) const
 
 const Dimension* TagSet::getDimension( const string& name ) const 
 {
-	for( vector<shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
+	for( vector<std::shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
 	{
 		if( (*itr)->getRoot()->getName() == name )
 		{
@@ -276,7 +276,7 @@ const VirtualDimension* TagSet::getVirtualDimension( const string& name ) const
 const vector<Dimension*> TagSet::getDimensions() const
 {
 	vector<Dimension*> dimensions;
-	for( vector<shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
+	for( vector<std::shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
 	{
 		dimensions.push_back( (*itr).get() );
 	}
@@ -285,7 +285,7 @@ const vector<Dimension*> TagSet::getDimensions() const
 //____________________________________________________________________________________________________________________________________________________________________________________
 const DefaultDimension* TagSet::getDefaultDimension() const
 {
-	for( vector<shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
+	for( vector<std::shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
 	{
 		if( (*itr)->getTypeId() == Dimension::DEFAULT )
 		{
@@ -299,7 +299,7 @@ const DefaultDimension* TagSet::getDefaultDimension() const
 const vector<PersistentDimension*> TagSet::getPersistentDimensions() const
 {
 	vector<PersistentDimension*> dimensions;
-	for( vector<shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
+	for( vector<std::shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
 	{
 		if( (*itr)->getTypeId() == Dimension::PERSISTENT )
 		{
@@ -313,7 +313,7 @@ const vector<PersistentDimension*> TagSet::getPersistentDimensions() const
 const vector<VirtualDimension*> TagSet::getVirtualDimensions() const
 {
 	vector<VirtualDimension*> dimensions;
-	for( vector<shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
+	for( vector<std::shared_ptr<Dimension> >::const_iterator itr = dimensions_.begin(); itr != dimensions_.end(); ++itr )
 	{
 		if( (*itr)->getTypeId() == Dimension::VIRTUAL )
 		{
@@ -326,8 +326,8 @@ const vector<VirtualDimension*> TagSet::getVirtualDimensions() const
 
 const Tag* /*const*/ TagSet::getTag( int id ) const
 {
-	//map<int, shared_ptr<Tag> >::iterator itr = TagSet::allTags_.find( id );
-	//map<int, shared_ptr<Tag> >::iterator itr = TagSet::allTags_.find( id );
+	//map<int, std::shared_ptr<Tag> >::iterator itr = TagSet::allTags_.find( id );
+	//map<int, std::shared_ptr<Tag> >::iterator itr = TagSet::allTags_.find( id );
 	map<int, Tag*>::iterator itr = TagSet::allTags_.find( id );
 	if( itr == TagSet::allTags_.end() ) //Not found
 	{
@@ -356,7 +356,7 @@ const vector<Tag*> TagSet::getTags( const vector<int>& tagIds ) const
 const vector<Tag*> TagSet::getTags() const
 {
 	vector<Tag*> tags;
-	for( vector< shared_ptr<Tag> >::const_iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
+	for( vector< std::shared_ptr<Tag> >::const_iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
 	{
 		tags.push_back( (*itr).get() );
 	}
@@ -377,15 +377,15 @@ const Tag* /*const*/ TagSet::addTag( const Tag* /*const*/ tag)
 		throw Exception( "TagSet::addTag",  stringStream.str() );
 	}
 	//We copy the tag to limit the affects of user actions on the framework.  It also simplifies user memory management.
-	shared_ptr<Tag> tagCopy( TagFactory::create( tag->getTypeId() ) );
+	std::shared_ptr<Tag> tagCopy( TagFactory::create( tag->getTypeId() ) );
 	//Tag* tagCopy = TagFactory::create( tag->getTypeId() );
 	//*tagCopy = *tag;
 	*tagCopy.get() = *tag;
 	tagCopy->setTagSetId_( getId() );
 	tagCopy->create_();
 	tags_.push_back( tagCopy );
-	//shared_ptr<Tag> tagMap( tagCopy );
-//	TagSet::allTags_.insert( pair<int, shared_ptr<Tag> >( tagCopy->getId(), tagCopy ) );
+	//std::shared_ptr<Tag> tagMap( tagCopy );
+//	TagSet::allTags_.insert( pair<int, std::shared_ptr<Tag> >( tagCopy->getId(), tagCopy ) );
 	TagSet::allTags_.insert( pair<int, Tag*>( tagCopy->getId(), tagCopy.get() ) );
 	loadDefaultDimension_();  //Add the tag, brute force
 	
@@ -402,10 +402,10 @@ void TagSet::erase()
 	
 	//Do all the DB deletions in one transaction, this is all or nothing operation
 	
-	auto_ptr<TagSetDataAccess> dataAccess( TagSetConverter::logicToDataAccess( this ) );
+	unique_ptr<TagSetDataAccess> dataAccess( TagSetConverter::logicToDataAccess( this ) );
 	dataAccess->erase();
 	
-	for( vector<shared_ptr<Tag> >::iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
+	for( vector<std::shared_ptr<Tag> >::iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
 	{
 		TagSet::allTags_.erase( (*itr)->getId() );
 	}
@@ -431,7 +431,7 @@ void TagSet::deleteTag( const Tag* /*const*/ tag )
 		throw Exception( "TagSet::deleteTag", "The tag is in use, remove it from all objects before deleting it!", tag->getId() );
 	}
 	
-	for( vector<shared_ptr<Tag> >::iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
+	for( vector<std::shared_ptr<Tag> >::iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
 	{
 		if( (*itr)->getId() == tag->getId() )
 		{
@@ -454,8 +454,8 @@ void TagSet::deleteTag( const Tag* /*const*/ tag )
 
 TagSet* TagSet::createImp_()
 {
-	auto_ptr<TagSetDataAccess> dataAccess( TagSetConverter::logicToDataAccess( this ) );
-	shared_ptr<TagSet> tagSet( TagSetConverter::dataAccessToLogic( dataAccess->create() ) );
+	unique_ptr<TagSetDataAccess> dataAccess( TagSetConverter::logicToDataAccess( this ) );
+	std::shared_ptr<TagSet> tagSet( TagSetConverter::dataAccessToLogic( dataAccess->create() ) );
 	*this = *tagSet.get();
 	
 	// hs: Added for reloading dimensions, when new tagset is added.
@@ -479,19 +479,19 @@ void TagSet::fetch_( int id )
 	DebugInfo::getDebugInfo()->pushTimer( "TagSet", "fetch_" );
 	DebugInfo::getDebugInfo()->pushTimer( "TagSet", "fetch_", "fetch tag-set" );
 	setId_( id );
-	auto_ptr<TagSetDataAccess> dataAccess( TagSetDataAccessFactory::create() );
-	shared_ptr<TagSet> tagSet( TagSetConverter::dataAccessToLogic( dataAccess->fetch( id ) ) );
+	unique_ptr<TagSetDataAccess> dataAccess( TagSetDataAccessFactory::create() );
+	std::shared_ptr<TagSet> tagSet( TagSetConverter::dataAccessToLogic( dataAccess->fetch( id ) ) );
 	*this = *tagSet.get();
 	
-	for( vector<shared_ptr<Tag> >::iterator it = tags_.begin(); it != tags_.end(); ++it )
+	for( vector<std::shared_ptr<Tag> >::iterator it = tags_.begin(); it != tags_.end(); ++it )
 	{
 		//ToDo: Stop taking a copy!  It is done due to a nasty memory clean-up error.
 /*
-		shared_ptr<Tag> mapTag( TagFactory::create( (*it)->getTypeId() ) );
+		std::shared_ptr<Tag> mapTag( TagFactory::create( (*it)->getTypeId() ) );
 		*(mapTag.get()) = *( (*it).get() );  
-		TagSet::allTags_.insert( pair<int, shared_ptr<Tag> >( mapTag.get()->getId(), mapTag ) );
+		TagSet::allTags_.insert( pair<int, std::shared_ptr<Tag> >( mapTag.get()->getId(), mapTag ) );
 */
-		//TagSet::allTags_.insert( pair<int, shared_ptr<Tag> >( (*it)->getId(), (*it) ) );
+		//TagSet::allTags_.insert( pair<int, std::shared_ptr<Tag> >( (*it)->getId(), (*it) ) );
 		TagSet::allTags_.insert( pair<int, Tag*>( (*it)->getId(), (*it).get() ) );
 	}
 	
@@ -503,7 +503,7 @@ void TagSet::fetch_( int id )
 	vector<int> hierarchyIds = dataAccess->fetchDimensionIds();
 	for( vector<int>::iterator itr = hierarchyIds.begin(); itr != hierarchyIds.end(); ++itr )
 	{
-		dimensions_.push_back( shared_ptr<Dimension>( PersistentDimension::fetch_( *itr ) ) );
+		dimensions_.push_back( std::shared_ptr<Dimension>( PersistentDimension::fetch_( *itr ) ) );
 	}
 	DebugInfo::getDebugInfo()->popTimer();
 	
@@ -522,7 +522,7 @@ void TagSet::loadDefaultDimension_()
 	
 	DebugInfo::getDebugInfo()->pushTimer( "TagSet", "fetch_", "default dimension" );
 	
-	shared_ptr<DefaultDimension> defaultDimension( new DefaultDimension( getId(), getTags() ) );
+	std::shared_ptr<DefaultDimension> defaultDimension( new DefaultDimension( getId(), getTags() ) );
 	dimensions_.push_back( defaultDimension );
 	
 	DebugInfo::getDebugInfo()->popTimer();	
@@ -532,7 +532,7 @@ void TagSet::loadDefaultDimension_()
 const vector<Filter*> TagSet::getFilters() const
 {
 	vector<Filter*> filters;
-	for( vector< shared_ptr<Filter> >::const_iterator itr = filters_.begin(); itr != filters_.end(); ++itr )
+	for( vector< std::shared_ptr<Filter> >::const_iterator itr = filters_.begin(); itr != filters_.end(); ++itr )
 	{
 		filters.push_back( (*itr).get() );
 	}
@@ -554,12 +554,12 @@ void TagSet::addFilter_( Filter* /*const*/ filter )
 	
 	//We copy the filter so that the memory mangement of the framework is less affected by the users actions.
 	/*
-	auto_ptr<Filter> filterCopy( FilterFactory::create( filter->getTypeId() ) );
+	unique_ptr<Filter> filterCopy( FilterFactory::create( filter->getTypeId() ) );
 	*(filterCopy.get()) = *filter;
 	filters_.push_back( filterCopy.release() );
 	*/
 	
-	shared_ptr<Filter> filterCopy( FilterFactory::create( filter->getTypeId() ) );
+	std::shared_ptr<Filter> filterCopy( FilterFactory::create( filter->getTypeId() ) );
 	*(filterCopy.get()) = *filter;
 	filters_.push_back( filterCopy );
 }
@@ -569,7 +569,7 @@ void TagSet::removeFilter_( Filter* filter )
 {
 	//ToDo:  Use this type of logic instead of looping through the containers.	 
 	/*
-	vector< shared_ptr<Filter> >::iterator itr = find_if( filters_.begin(), filters_.end(), dereference( filter ) );
+	vector< std::shared_ptr<Filter> >::iterator itr = find_if( filters_.begin(), filters_.end(), dereference( filter ) );
 	if( itr == filters_.end() )
 	{
 		throw Exception( "TagSet::removeFilter_", "Filter was not found!" );
@@ -579,7 +579,7 @@ void TagSet::removeFilter_( Filter* filter )
 	filters_.erase( itr );
 	 */
 	
-	for( vector< shared_ptr<Filter> >::iterator itr = filters_.begin(); itr != filters_.end(); ++itr )
+	for( vector< std::shared_ptr<Filter> >::iterator itr = filters_.begin(); itr != filters_.end(); ++itr )
 	{
 		if( (*itr)->getId() == filter->getId() )
 		{

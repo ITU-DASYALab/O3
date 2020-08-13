@@ -70,7 +70,7 @@ Object& Object::create()
 {
 	DebugInfo::getDebugInfo()->pushTimer( "Object", "create" );
 	DebugInfo::getDebugInfo()->pushTimer( "Object", "create", "add to DB" );
-	auto_ptr<ObjectDataAccess> dataAccess( 	ObjectConverter::logicToDataAccess( this ) );
+	unique_ptr<ObjectDataAccess> dataAccess( 	ObjectConverter::logicToDataAccess( this ) );
 	*this = ObjectConverter::dataAccessToLogic( dataAccess->create() );
 	DebugInfo::getDebugInfo()->popTimer();
 	
@@ -89,7 +89,7 @@ Object& Object::create()
 	vector<ObjectTag>::iterator itr;
 	for( itr = tags_.begin(); itr != tags_.end(); itr++ )
 	{
-		auto_ptr<ObjectTagDataAccess> objectTagDA( ObjectTagConverter::logicToDataAccess( *itr ) );
+		unique_ptr<ObjectTagDataAccess> objectTagDA( ObjectTagConverter::logicToDataAccess( *itr ) );
 		dataAccess->addTag( objectTagDA.get() );
 	}
 	DebugInfo::getDebugInfo()->popTimer();
@@ -115,7 +115,7 @@ Object Object::fetch( int id )
 {
 	DebugInfo::getDebugInfo()->output("Object", "fetch(id)", "Start" );
 	
-	auto_ptr<ObjectDataAccess> dataAccess( ObjectDataAccessFactory::create() );
+	unique_ptr<ObjectDataAccess> dataAccess( ObjectDataAccessFactory::create() );
 	Object object = ObjectConverter::dataAccessToLogic( dataAccess->fetch( id ) );
 //	Hub* hub = Hub::getHub();
 //	object.setTags_( hub->getTags( dataAccess->getTagIds() ) );
@@ -128,7 +128,7 @@ Object Object::fetch( const string& qualifiedName )
 {
 	DebugInfo::getDebugInfo()->output("Object", "fetch(name)", "Start" );
 	
-	auto_ptr<ObjectDataAccess> dataAccess( ObjectDataAccessFactory::create() );
+	unique_ptr<ObjectDataAccess> dataAccess( ObjectDataAccessFactory::create() );
 	Object object = ObjectConverter::dataAccessToLogic( dataAccess->fetch( qualifiedName ) );
 //	Hub* hub = Hub::getHub();
 //	object.setTags_( hub->getTags( dataAccess->getTagIds() ) );
@@ -139,7 +139,7 @@ Object Object::fetch( const string& qualifiedName )
 
 void Object::update()
 {
-	auto_ptr<ObjectDataAccess> dataAccess( 	ObjectConverter::logicToDataAccess( this ) );
+	unique_ptr<ObjectDataAccess> dataAccess( 	ObjectConverter::logicToDataAccess( this ) );
 	cout << "Object::update() Thumbnail = " <<  thumbnail_ << endl;
 	cout << "Object::update() fileType = " << fileType_ << endl;
 	dataAccess->setName(name_);
@@ -151,14 +151,14 @@ void Object::update()
 
 void Object::updateFileType()
 {
-	auto_ptr<ObjectDataAccess> dataAccess( 	ObjectConverter::logicToDataAccess( this ) );
+	unique_ptr<ObjectDataAccess> dataAccess( 	ObjectConverter::logicToDataAccess( this ) );
 	dataAccess->updateFileTypeFromPluginResult();
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
 void Object::erase()
 {
-	auto_ptr<ObjectDataAccess> dataAccess( 	ObjectConverter::logicToDataAccess( this ) );
+	unique_ptr<ObjectDataAccess> dataAccess( 	ObjectConverter::logicToDataAccess( this ) );
 	dataAccess->erase();
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
@@ -176,8 +176,8 @@ void Object::addTag( ObjectTag& tag )
 	
 	tag.setObjectId_( getId() );
 	
-	auto_ptr<ObjectDataAccess> dataAccess( ObjectDataAccessFactory::create() );
-	auto_ptr<ObjectTagDataAccess> objectTagDA( ObjectTagConverter::logicToDataAccess( tag ) );
+	unique_ptr<ObjectDataAccess> dataAccess( ObjectDataAccessFactory::create() );
+	unique_ptr<ObjectTagDataAccess> objectTagDA( ObjectTagConverter::logicToDataAccess( tag ) );
 	dataAccess->addTag( objectTagDA.get() );
 	
 	Hub* hub = Hub::getHub();
@@ -195,8 +195,8 @@ void Object::addTag( ObjectTag& tag )
 
 void Object::removeTag( ObjectTag& tag )
 {
-	auto_ptr<ObjectDataAccess> dataAccess( ObjectDataAccessFactory::create() );
-	auto_ptr<ObjectTagDataAccess> objectTagDA( ObjectTagConverter::logicToDataAccess( tag ) );
+	unique_ptr<ObjectDataAccess> dataAccess( ObjectDataAccessFactory::create() );
+	unique_ptr<ObjectTagDataAccess> objectTagDA( ObjectTagConverter::logicToDataAccess( tag ) );
 	dataAccess->removeTag( objectTagDA.get() );
 	
 	vector<ObjectTag>::iterator itr = find_if( tags_.begin(), tags_.end(), tag );

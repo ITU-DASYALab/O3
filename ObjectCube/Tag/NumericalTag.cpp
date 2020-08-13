@@ -55,17 +55,17 @@ NumericalTag::~NumericalTag()
 
 void NumericalTag::fetchImp_()  
 {
-	auto_ptr<NumericalTagDataAccess> dataAccess( NumericalTagDataAccessFactory::create() );
+	unique_ptr<NumericalTagDataAccess> dataAccess( NumericalTagDataAccessFactory::create() );
 	
 	if( getId() > 0 )
 	{
-		shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getId() ) ) );
+		std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getId() ) ) );
 		*this = *dynamic_cast<NumericalTag*>( tag.get() ) ;
 		return;
 	}
 	else if( getTagSetId() > 0 && !isNull() )  //The number itself has no value limitations, here we demand it has been set (not null)
 	{
-		shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getTagSetId(), getNumber() ) ) );
+		std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getTagSetId(), getNumber() ) ) );
 		*this = *dynamic_cast<NumericalTag*>( tag.get() );
 		return;
 	}
@@ -75,15 +75,15 @@ void NumericalTag::fetchImp_()
 
 void NumericalTag::create_()
 {
-	auto_ptr<NumericalTagDataAccess> dataAccess( dynamic_cast<NumericalTagDataAccess*>( TagConverter::logicToDataAccess( this ).release() ) );
-	shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->create() ) );
+	unique_ptr<NumericalTagDataAccess> dataAccess( dynamic_cast<NumericalTagDataAccess*>( TagConverter::logicToDataAccess( this ).release() ) );
+	std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->create() ) );
 	*this = *dynamic_cast<NumericalTag*>( tag.get() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
 void NumericalTag::delete_()
 {
-	auto_ptr<NumericalTagDataAccess> dataAccess( NumericalTagDataAccessFactory::create() ); //The existence of the tag on objects is checked here rather than using State to limit dependence
+	unique_ptr<NumericalTagDataAccess> dataAccess( NumericalTagDataAccessFactory::create() ); //The existence of the tag on objects is checked here rather than using State to limit dependence
 	
 	if( inUse() )
 	{

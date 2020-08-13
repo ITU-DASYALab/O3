@@ -19,23 +19,23 @@ using namespace ObjectCube;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-shared_ptr<Tag> TagConverter::dataAccessToLogic( const TagDataAccess* tagDA )
+std::shared_ptr<Tag> TagConverter::dataAccessToLogic( const TagDataAccess* tagDA )
 {
-	shared_ptr<TagConverter> converter( TagConverterFactory::create( tagDA->getTypeId()) );
+	std::shared_ptr<TagConverter> converter( TagConverterFactory::create( tagDA->getTypeId()) );
 	return converter->dataAccessToLogic_( tagDA );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-auto_ptr<TagDataAccess> TagConverter::logicToDataAccess( const Tag* tag )
+unique_ptr<TagDataAccess> TagConverter::logicToDataAccess( const Tag* tag )
 {
-	auto_ptr<TagConverter> converter( TagConverterFactory::create( tag->getTypeId()) );
+	unique_ptr<TagConverter> converter( TagConverterFactory::create( tag->getTypeId()) );
 	return converter->logicToDataAccess_( tag );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-vector<shared_ptr<Tag> > TagConverter::dataAccessToLogic( const vector<TagDataAccess*>& tagsDA )
+vector<std::shared_ptr<Tag> > TagConverter::dataAccessToLogic( const vector<TagDataAccess*>& tagsDA )
 {
-	vector<shared_ptr<Tag> > tags;
+	vector<std::shared_ptr<Tag> > tags;
 	for( vector<TagDataAccess*>::const_iterator itr = tagsDA.begin(); itr != tagsDA.end(); ++itr )
 	{
 		tags.push_back( TagConverter::dataAccessToLogic( *itr ) );
@@ -55,9 +55,9 @@ vector<TagDataAccess*> TagConverter::logicToDataAccess( const vector<Tag*>& tags
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-shared_ptr<Tag> TagConverter::dataAccessToLogic_( const TagDataAccess* tagDA )
+std::shared_ptr<Tag> TagConverter::dataAccessToLogic_( const TagDataAccess* tagDA )
 {
-	shared_ptr<Tag> tag( TagFactory::create( (int) tagDA->getTypeId() ) );
+	std::shared_ptr<Tag> tag( TagFactory::create( (int) tagDA->getTypeId() ) );
 	
 	tag->setId_( tagDA->getId() );
 	tag->setTagSetId_( tagDA->getTagSetId() );
@@ -67,9 +67,9 @@ shared_ptr<Tag> TagConverter::dataAccessToLogic_( const TagDataAccess* tagDA )
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-auto_ptr<TagDataAccess> TagConverter::logicToDataAccess_( const Tag* tag )
+unique_ptr<TagDataAccess> TagConverter::logicToDataAccess_( const Tag* tag )
 {
-	auto_ptr<TagDataAccess> tagDA( TagDataAccessFactory::create( tag->getTypeId() ) );
+	unique_ptr<TagDataAccess> tagDA( TagDataAccessFactory::create( tag->getTypeId() ) );
 	
 	tagDA->setId( tag->getId() );
 	tagDA->setTagSetId( tag->getTagSetId() );

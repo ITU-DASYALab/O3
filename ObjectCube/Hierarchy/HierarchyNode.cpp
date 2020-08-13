@@ -77,7 +77,7 @@ void HierarchyNode::copyValues_( const HierarchyNode& node )
 	const vector<HierarchyNode*> children = node.getBranches();
 	for( vector<HierarchyNode*>::const_iterator itr = children.begin(); itr != children.end(); ++itr )
 	{
-		shared_ptr<HierarchyNode> nNode( HierarchyNodeFactory::create( node.getTypeId() ) );  //All the nodes of a dimension must be of the same type
+		std::shared_ptr<HierarchyNode> nNode( HierarchyNodeFactory::create( node.getTypeId() ) );  //All the nodes of a dimension must be of the same type
 		*nNode.get() = *(*itr);
 		children_.push_back( nNode );
 	}
@@ -95,7 +95,7 @@ map<int, int> HierarchyNode::getSubtreeTagIds() const
 const vector<HierarchyNode*> HierarchyNode::getBranches() const
 {
 	vector<HierarchyNode*> nodes;
-	for( vector< shared_ptr<HierarchyNode> >::const_iterator itr = children_.begin(); itr != children_.end(); ++itr )
+	for( vector< std::shared_ptr<HierarchyNode> >::const_iterator itr = children_.begin(); itr != children_.end(); ++itr )
 	{
 		nodes.push_back( (*itr).get() );
 	}
@@ -107,7 +107,7 @@ void HierarchyNode::setBranches_( const vector<HierarchyNode*>& branches )
 {
 	for( vector<HierarchyNode*>::const_iterator itr = branches.begin(); itr != branches.end(); ++itr )
 	{
-		shared_ptr<HierarchyNode> nNode( HierarchyNodeFactory::create( (*itr)->getTypeId() ) );  //All the nodes of a dimension must be of the same type
+		std::shared_ptr<HierarchyNode> nNode( HierarchyNodeFactory::create( (*itr)->getTypeId() ) );  //All the nodes of a dimension must be of the same type
 		*nNode.get() = *(*itr);
 		children_.push_back( nNode );	
 	}
@@ -122,7 +122,7 @@ HierarchyNode* HierarchyNode::getBranch( int id )
 	}
 	
 	HierarchyNode* node = 0;
-	for( vector< shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
+	for( vector< std::shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
 	{
 		if( (*itr)->getBranch_( id, node ) )
 		{
@@ -153,7 +153,7 @@ bool HierarchyNode::getBranch_( int id, HierarchyNode*& node )
 		node = this;
 		return true;
 	}
-	for( vector<shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
+	for( vector<std::shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
 	{
 		if( (*itr)->getBranch_( id, node ) )
 		{
@@ -173,7 +173,7 @@ void HierarchyNode::updateBorders_( int& borderCounter )
 	
 	leftBorder_ = borderCounter++;
 	
-	for( vector<shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
+	for( vector<std::shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
 	{
 		(*itr)->updateBorders_( borderCounter );
 	}		
@@ -199,7 +199,7 @@ string HierarchyNode::traverse( int indent ) const
 	stringStream << prefix << "  left: " << leftBorder_ << "\n";
 	
 	indent += 4;
-	for( vector<shared_ptr<HierarchyNode> >::const_iterator itr = children_.begin(); itr != children_.end(); ++itr )
+	for( vector<std::shared_ptr<HierarchyNode> >::const_iterator itr = children_.begin(); itr != children_.end(); ++itr )
 	{
 		stringStream << (*itr)->traverse( indent );
 	}		

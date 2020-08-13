@@ -27,7 +27,7 @@ PersistentDimension* DimensionConverter::dataAccessToLogic( DimensionDataAccess*
 	hierarchy->setId_( dimensionHierarchyDA->getId() );
 	hierarchy->setTagSetId_( dimensionHierarchyDA->getTagSetId() );
 	
-	shared_ptr<PersistentHierarchyNode> rootNode( HierarchyNodeConverter::dataAccessToLogic( dimensionHierarchyDA->getRoot() ) );
+	std::shared_ptr<PersistentHierarchyNode> rootNode( HierarchyNodeConverter::dataAccessToLogic( dimensionHierarchyDA->getRoot() ) );
 	*hierarchy->root_ = *rootNode.get(); 
 
 	return hierarchy;

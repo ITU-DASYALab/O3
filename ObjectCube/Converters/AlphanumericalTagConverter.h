@@ -15,7 +15,7 @@
 using std::shared_ptr;
 #else
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 #include "TagConverter.h"
@@ -29,8 +29,8 @@ namespace ObjectCube
 	class AlphanumericalTagConverter : public TagConverter
 	{
 	protected:
-		virtual shared_ptr<Tag> dataAccessToLogic_( const TagDataAccess* tagDA );
-		virtual auto_ptr<TagDataAccess> logicToDataAccess_( const Tag* tag );
+	        virtual std::shared_ptr<Tag> dataAccessToLogic_( const TagDataAccess* tagDA );
+		virtual unique_ptr<TagDataAccess> logicToDataAccess_( const Tag* tag );
 		
 	};
 }

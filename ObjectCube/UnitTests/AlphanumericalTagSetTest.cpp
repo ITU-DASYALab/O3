@@ -57,13 +57,13 @@ void AlphanumericalTagSetTest::testFetchCanned()
 	expected.setTypeId_( TagSet::ALPHANUMERICAL );
 	
 	//The tag-set cleans up the memory
-	tr1::shared_ptr<AlphanumericalTag> tag( new AlphanumericalTag( HubCommon::getUncategorizedTagName() ) );
+	tr1::std::shared_ptr<AlphanumericalTag> tag( new AlphanumericalTag( HubCommon::getUncategorizedTagName() ) );
 	tag->setTagSetId_( TEST_ALPHANUMERICAL_TAG_SET_ID );
 	tag->setId_( TEST_ALPHANUMERICAL_TAG_ID_CANNED );
-	vector<tr1::shared_ptr<Tag> > tags;
+	vector<tr1::std::shared_ptr<Tag> > tags;
 	tags.push_back( tag );
 	
-	tr1::shared_ptr<AlphanumericalTag> tag2( new AlphanumericalTag( "Another silly test tag" ) );
+	tr1::std::shared_ptr<AlphanumericalTag> tag2( new AlphanumericalTag( "Another silly test tag" ) );
 	tag2->setTagSetId_( TEST_ALPHANUMERICAL_TAG_SET_ID );
 	tag2->setId_( SQLiteTestIds::TEST_ALPHANUMERICAL_TAG_ID  );
 	tags.push_back( tag2 );

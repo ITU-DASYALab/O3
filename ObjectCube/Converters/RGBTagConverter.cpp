@@ -14,9 +14,9 @@ using namespace ObjectCube;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-shared_ptr<Tag> RGBTagConverter::dataAccessToLogic_( const TagDataAccess* tagDA )
+std::shared_ptr<Tag> RGBTagConverter::dataAccessToLogic_( const TagDataAccess* tagDA )
 {
-	shared_ptr<Tag> tag( TagConverter::dataAccessToLogic_( tagDA ) );
+	std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic_( tagDA ) );
 	RGBTag* aTag = dynamic_cast<RGBTag*>( tag.get() );
 	
 	const RGBTagDataAccess* aTagDA = dynamic_cast<const RGBTagDataAccess*>( tagDA );
@@ -29,9 +29,9 @@ shared_ptr<Tag> RGBTagConverter::dataAccessToLogic_( const TagDataAccess* tagDA 
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-auto_ptr<TagDataAccess> RGBTagConverter::logicToDataAccess_( const Tag* tag )
+unique_ptr<TagDataAccess> RGBTagConverter::logicToDataAccess_( const Tag* tag )
 {
-	auto_ptr<TagDataAccess> tagDA(TagConverter::logicToDataAccess_( tag ) );
+	unique_ptr<TagDataAccess> tagDA(TagConverter::logicToDataAccess_( tag ) );
 	RGBTagDataAccess* aTagDA = dynamic_cast<RGBTagDataAccess*>( tagDA.get() );
 	
 	aTagDA->setName( dynamic_cast<const RGBTag*>( tag )->getName() );

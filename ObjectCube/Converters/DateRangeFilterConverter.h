@@ -19,7 +19,7 @@ namespace ObjectCube
 	class DateRangeFilterConverter : public FilterConverter
 	{
 	protected:
-		virtual auto_ptr<FilterDataAccess> logicToDataAccess_( const Filter* filter );
+		virtual unique_ptr<FilterDataAccess> logicToDataAccess_( const Filter* filter );
 		
 	};
 }

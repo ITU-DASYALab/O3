@@ -57,17 +57,17 @@ void AlphanumericalTag::setName( string name )
 
 void AlphanumericalTag::fetchImp_()  //Reconsider this design
 {
-	auto_ptr<AlphanumericalTagDataAccess> dataAccess( AlphanumericalTagDataAccessFactory::create() );
+	unique_ptr<AlphanumericalTagDataAccess> dataAccess( AlphanumericalTagDataAccessFactory::create() );
 
 	if( getId() > 0 )
 	{
-		shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getId() ) ) );
+		std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getId() ) ) );
 		*this = *dynamic_cast<AlphanumericalTag*>( tag.get() );
 		return;
 	}
 	else if( getTagSetId() > 0 && getName().length() > 0 )
 	{
-		shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getTagSetId(), getName() ) ) );
+		std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getTagSetId(), getName() ) ) );
 		*this = *dynamic_cast<AlphanumericalTag*>( tag.get() );
 		return;
 	}
@@ -77,15 +77,15 @@ void AlphanumericalTag::fetchImp_()  //Reconsider this design
 
 void AlphanumericalTag::create_()
 {
-	auto_ptr<AlphanumericalTagDataAccess> dataAccess( dynamic_cast<AlphanumericalTagDataAccess*>( TagConverter::logicToDataAccess( this ).release() ) );
-	shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->create() ) );
+	unique_ptr<AlphanumericalTagDataAccess> dataAccess( dynamic_cast<AlphanumericalTagDataAccess*>( TagConverter::logicToDataAccess( this ).release() ) );
+	std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->create() ) );
 	*this = *dynamic_cast<AlphanumericalTag*>( tag.get() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
 void AlphanumericalTag::delete_()
 {
-	auto_ptr<AlphanumericalTagDataAccess> dataAccess( AlphanumericalTagDataAccessFactory::create() ); //The existence of the tag on objects is checked here rather than using State to limit dependence
+	unique_ptr<AlphanumericalTagDataAccess> dataAccess( AlphanumericalTagDataAccessFactory::create() ); //The existence of the tag on objects is checked here rather than using State to limit dependence
 	
 	if( inUse() )
 	{

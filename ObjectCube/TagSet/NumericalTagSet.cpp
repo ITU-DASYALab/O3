@@ -67,7 +67,7 @@ NumericalTagSet* NumericalTagSet::create()
 
 const NumericalTag* /*const*/ NumericalTagSet::getNumericalTag( long number ) const
 {
-	for( vector<shared_ptr<Tag> >::const_iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
+	for( vector<std::shared_ptr<Tag> >::const_iterator itr = tags_.begin(); itr != tags_.end(); ++itr )
 	{
 		if( (*itr)->getTypeId() == TagCommon::NUMERICAL )
 		{

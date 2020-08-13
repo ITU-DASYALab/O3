@@ -32,9 +32,9 @@ PluginTagSet PluginTagSetConverter::dataAccessToLogic( const PluginTagSetDataAcc
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-auto_ptr<PluginTagSetDataAccess> PluginTagSetConverter::logicToDataAccess( const PluginTagSet& pluginTagSet )
+unique_ptr<PluginTagSetDataAccess> PluginTagSetConverter::logicToDataAccess( const PluginTagSet& pluginTagSet )
 {
-	auto_ptr<PluginTagSetDataAccess> pluginTagSetDA( PluginTagSetDataAccessFactory::create() );
+	unique_ptr<PluginTagSetDataAccess> pluginTagSetDA( PluginTagSetDataAccessFactory::create() );
 	
 	pluginTagSetDA->setId( pluginTagSet.getId() );
 	pluginTagSetDA->setTagSetTypeId( pluginTagSet.getTagSetTypeId() );

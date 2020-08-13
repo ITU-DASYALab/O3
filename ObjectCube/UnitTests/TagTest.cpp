@@ -44,7 +44,7 @@ void TagTest::testFetchByIdCanned()
 	HubCommon::setDataAccessType( HubCommon::CANNED );
 	int id = 1;
 	
-	auto_ptr<Tag> tag( Tag::fetch_( 1 ) );
+	unique_ptr<Tag> tag( Tag::fetch_( 1 ) );
 	AlphanumericalTag expected; //We use this since Tag is abstract
 	expected.setId_( id );
 	expected.setTagSetId_( 2 );	
@@ -116,16 +116,16 @@ void TagTest::testTypeAsStringOracle()
 
 void TagTest::testFetchById_( int id )
 {
-	auto_ptr<Tag> tag( Tag::fetch_( id ) );
+	unique_ptr<Tag> tag( Tag::fetch_( id ) );
 	
-	auto_ptr<AlphanumericalTag> expected( AlphanumericalTag::fetch( id ) );
+	unique_ptr<AlphanumericalTag> expected( AlphanumericalTag::fetch( id ) );
 	CPPUNIT_ASSERT_EQUAL( *dynamic_cast<Tag*>( expected.get() ), *tag.get() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
 void TagTest::testTypeAsString_( int id )
 {
-	auto_ptr<Tag> tag( Tag::fetch_( id ) );
+	unique_ptr<Tag> tag( Tag::fetch_( id ) );
 	
 	Hub::setLanguageId( LanguageCommon::ENGLISH );
 	CPPUNIT_ASSERT_EQUAL( tag->typeAsString() , TEST_ALPHANUMERICAL_TAG_TYPE_NAME_ENGLISH );

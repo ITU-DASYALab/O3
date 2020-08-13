@@ -23,7 +23,7 @@ using namespace std;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-shared_ptr<DebugInfo> DebugInfo::instance_;
+std::shared_ptr<DebugInfo> DebugInfo::instance_;
 string DebugInfo::OUTPUT_DEBUG_INFO = "outputDebugInfo";
 string DebugInfo::OUTPUT_CLASS_PREFIX = "outputDI_";
 string DebugInfo::OUTPUT_FUNCTION_PREFIX = "::";

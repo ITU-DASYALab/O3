@@ -15,10 +15,10 @@ using namespace ObjectCube;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-auto_ptr<FilterDataAccess> DateRangeFilterConverter::logicToDataAccess_( const Filter* filter )
+unique_ptr<FilterDataAccess> DateRangeFilterConverter::logicToDataAccess_( const Filter* filter )
 {
 	
-	auto_ptr<DateRangeFilterDataAccess> filterDA( dynamic_cast<DateRangeFilterDataAccess*>( FilterConverter::logicToDataAccess_( filter ).release() ) );
+	unique_ptr<DateRangeFilterDataAccess> filterDA( dynamic_cast<DateRangeFilterDataAccess*>( FilterConverter::logicToDataAccess_( filter ).release() ) );
 	
 	const DateRangeFilter* drFilter = dynamic_cast<const DateRangeFilter*> ( filter );
 	if( !drFilter )
@@ -33,6 +33,6 @@ auto_ptr<FilterDataAccess> DateRangeFilterConverter::logicToDataAccess_( const F
 	filterDA->setMonthTo( drFilter->getMonthTo() );
 	filterDA->setDayOfMonthTo( drFilter->getDayOfMonthTo() );
 	
-	return auto_ptr<FilterDataAccess>( filterDA.release() );
+	return unique_ptr<FilterDataAccess>( filterDA.release() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________

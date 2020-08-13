@@ -43,7 +43,7 @@ void TimeTagTest::testFetchByIdCanned()
 	Hub::setDataAccessType( Hub::CANNED );
 
 	int id = 1;
-	auto_ptr<Tag> tag( Tag::fetch_( id ) );
+	unique_ptr<Tag> tag( Tag::fetch_( id ) );
 	TimeTag expected( TEST_TIME_TAG_VALUE_HOURS, TEST_TIME_TAG_VALUE_MINUTES, TEST_TIME_TAG_VALUE_SECONDS, TEST_TIME_TAG_VALUE_MILLISECONDS );
 	expected.setId_( id );
 	expected.setTagSetId_( 2 );	
@@ -58,7 +58,7 @@ void TimeTagTest::testFetchByDimensionIdAndNumberCanned()
 	cerr << "\nTimeTagTest::testFetchByDimensionIdAndNumberCanned = ";
 	Hub::setDataAccessType( Hub::CANNED );
 	
-	auto_ptr<TimeTag> tag( TimeTag::fetch( TEST_TIME_TAG_SET_ID, TEST_TIME_TAG_VALUE_HOURS, TEST_TIME_TAG_VALUE_MINUTES, TEST_TIME_TAG_VALUE_SECONDS, TEST_TIME_TAG_VALUE_MILLISECONDS ) );
+	unique_ptr<TimeTag> tag( TimeTag::fetch( TEST_TIME_TAG_SET_ID, TEST_TIME_TAG_VALUE_HOURS, TEST_TIME_TAG_VALUE_MINUTES, TEST_TIME_TAG_VALUE_SECONDS, TEST_TIME_TAG_VALUE_MILLISECONDS ) );
 	
 	TimeTag expected( TEST_TIME_TAG_VALUE_HOURS, TEST_TIME_TAG_VALUE_MINUTES, TEST_TIME_TAG_VALUE_SECONDS, TEST_TIME_TAG_VALUE_MILLISECONDS );
 	expected.setId_( TEST_TIME_TAG_ID_CANNED );
@@ -169,7 +169,7 @@ void TimeTagTest::testInUseOracle()
 
 void TimeTagTest::testFetchById_( int id )
 {
-	auto_ptr<Tag> tag( Tag::fetch_( id ) );
+	unique_ptr<Tag> tag( Tag::fetch_( id ) );
 	
 	TimeTag expected( TEST_TIME_TAG_VALUE_HOURS, TEST_TIME_TAG_VALUE_MINUTES, TEST_TIME_TAG_VALUE_SECONDS, TEST_TIME_TAG_VALUE_MILLISECONDS );
 	expected.setId_( id );
@@ -181,7 +181,7 @@ void TimeTagTest::testFetchById_( int id )
 
 void TimeTagTest::testFetchByTagSetIdAndTime_( int id )
 {
-	auto_ptr<TimeTag> tag( TimeTag::fetch( TEST_TIME_TAG_SET_ID, TEST_TIME_TAG_VALUE_HOURS, TEST_TIME_TAG_VALUE_MINUTES, TEST_TIME_TAG_VALUE_SECONDS, TEST_TIME_TAG_VALUE_MILLISECONDS ) );
+	unique_ptr<TimeTag> tag( TimeTag::fetch( TEST_TIME_TAG_SET_ID, TEST_TIME_TAG_VALUE_HOURS, TEST_TIME_TAG_VALUE_MINUTES, TEST_TIME_TAG_VALUE_SECONDS, TEST_TIME_TAG_VALUE_MILLISECONDS ) );
 	
 	TimeTag expected( TEST_TIME_TAG_VALUE_HOURS, TEST_TIME_TAG_VALUE_MINUTES, TEST_TIME_TAG_VALUE_SECONDS, TEST_TIME_TAG_VALUE_MILLISECONDS );
 	expected.setId_( id );

@@ -18,9 +18,9 @@ using namespace ObjectCube;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-shared_ptr<TagSet> TagSetConverter::dataAccessToLogic( TagSetDataAccess* tagSetDA )
+std::shared_ptr<TagSet> TagSetConverter::dataAccessToLogic( TagSetDataAccess* tagSetDA )
 {
-	shared_ptr<TagSet> dimension( TagSetFactory::create( tagSetDA->getTypeId() ) );
+	std::shared_ptr<TagSet> dimension( TagSetFactory::create( tagSetDA->getTypeId() ) );
 	
 	dimension->setId_( tagSetDA->getId() );
 	dimension->setName( tagSetDA->getName() );
@@ -48,9 +48,9 @@ TagSetDataAccess* TagSetConverter::logicToDataAccess( const TagSet* dimension )
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-vector<shared_ptr<TagSet> > TagSetConverter::dataAccessToLogic( vector<TagSetDataAccess*> dimensionsDA )
+vector<std::shared_ptr<TagSet> > TagSetConverter::dataAccessToLogic( vector<TagSetDataAccess*> dimensionsDA )
 {
-	vector<shared_ptr<TagSet> > dimensions;
+	vector<std::shared_ptr<TagSet> > dimensions;
 	for( vector<TagSetDataAccess*>::iterator itr = dimensionsDA.begin(); itr != dimensionsDA.end(); ++itr )
 	{
 		dimensions.push_back( TagSetConverter::dataAccessToLogic( *itr ) );

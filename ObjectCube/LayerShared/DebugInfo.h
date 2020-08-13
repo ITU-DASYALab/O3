@@ -19,7 +19,7 @@
 using std::shared_ptr;
 #else
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 using namespace std;
@@ -97,7 +97,7 @@ namespace ObjectCube
 		};
 		
 	private:
-		static shared_ptr<DebugInfo> instance_;
+		static std::shared_ptr<DebugInfo> instance_;
 		static string OUTPUT_DEBUG_INFO;
 		static string OUTPUT_CLASS_PREFIX;
 		static string OUTPUT_FUNCTION_PREFIX;
@@ -106,7 +106,7 @@ namespace ObjectCube
 		stack<DebugInfoTimer> timers_;
 		
 		bool coutAndCerrOn_;
-		shared_ptr<ofstream> nullstream_;
+		std::shared_ptr<ofstream> nullstream_;
 		streambuf* originalCerrBuffer_;
 		streambuf* originalCoutBuffer_;
 	};	

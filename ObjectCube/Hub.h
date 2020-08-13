@@ -17,7 +17,7 @@
 using std::shared_ptr;
 #else
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 #include "LayerShared/HubCommon.h"
@@ -96,7 +96,7 @@ namespace ObjectCube
 		static int getLanguageId() { return LanguageCommon::getLanguageId_(); }
 		static void setLanguageId( int languageId ) { LanguageCommon::setLanguageId_( languageId ); }
 		
-		shared_ptr<PluginServer> getPluginServer() { return pluginServer_; }
+		std::shared_ptr<PluginServer> getPluginServer() { return pluginServer_; }
 		
 		const string getLastObjectsQueryAsString() { return lastGetObjectsQueryAsString_; }  //For debugging and experiments
 
@@ -126,10 +126,10 @@ namespace ObjectCube
 		int tagSetDataAccessType_;
 		string lastGetObjectsQueryAsString_;
 		
-		vector<shared_ptr<TagSet> > tagSets_;
-		shared_ptr<PluginServer> pluginServer_;
+		vector<std::shared_ptr<TagSet> > tagSets_;
+		std::shared_ptr<PluginServer> pluginServer_;
 		
-		static shared_ptr<Hub> instance_;
+		static std::shared_ptr<Hub> instance_;
 		
 		friend class HubTest;
 	};

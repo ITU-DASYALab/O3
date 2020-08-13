@@ -60,17 +60,17 @@ DateTag::~DateTag()
 
 void DateTag::fetchImp_()  //Reconsider this design
 {
-	auto_ptr<DateTagDataAccess> dataAccess( DateTagDataAccessFactory::create() );
+	unique_ptr<DateTagDataAccess> dataAccess( DateTagDataAccessFactory::create() );
 	
 	if( getId() > 0 )
 	{
-		shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getId() ) ) );
+		std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getId() ) ) );
 		*this = *dynamic_cast<DateTag*>( tag.get() ) ;
 		return;
 	}
 	else if( getTagSetId() > 0 && !isNull() )  //The value itself has no limitations, here we demand it has been set (not null)
 	{
-		shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getTagSetId(), getYear(), getMonth(), getDayOfMonth() ) ) );
+		std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->fetch( getTagSetId(), getYear(), getMonth(), getDayOfMonth() ) ) );
 		*this = *dynamic_cast<DateTag*>( tag.get() );
 		return;
 	}
@@ -80,15 +80,15 @@ void DateTag::fetchImp_()  //Reconsider this design
 
 void DateTag::create_()
 {
-	auto_ptr<DateTagDataAccess> dataAccess( dynamic_cast<DateTagDataAccess*>( TagConverter::logicToDataAccess( this ).release() ) );
-	shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->create() ) );
+	unique_ptr<DateTagDataAccess> dataAccess( dynamic_cast<DateTagDataAccess*>( TagConverter::logicToDataAccess( this ).release() ) );
+	std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic( dataAccess->create() ) );
 	*this = *dynamic_cast<DateTag*>( tag.get() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
 void DateTag::delete_()
 {
-	auto_ptr<DateTagDataAccess> dataAccess( DateTagDataAccessFactory::create() ); //The existence of the tag on objects is checked here rather than using State to limit dependence
+	unique_ptr<DateTagDataAccess> dataAccess( DateTagDataAccessFactory::create() ); //The existence of the tag on objects is checked here rather than using State to limit dependence
 	
 	if( inUse() )
 	{

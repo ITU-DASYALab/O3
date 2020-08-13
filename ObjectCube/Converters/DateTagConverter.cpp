@@ -18,9 +18,9 @@ using namespace ObjectCube;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-shared_ptr<Tag> DateTagConverter::dataAccessToLogic_( const TagDataAccess* tagDA )
+std::shared_ptr<Tag> DateTagConverter::dataAccessToLogic_( const TagDataAccess* tagDA )
 {
-	shared_ptr<Tag> tag( TagConverter::dataAccessToLogic_( tagDA ) );
+	std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic_( tagDA ) );
 	DateTag* dTag =  dynamic_cast<DateTag*>( tag.get() );
 	
 	const DateTagDataAccess* dTagDA = dynamic_cast<const DateTagDataAccess*>( tagDA );
@@ -35,15 +35,15 @@ shared_ptr<Tag> DateTagConverter::dataAccessToLogic_( const TagDataAccess* tagDA
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-auto_ptr<TagDataAccess> DateTagConverter::logicToDataAccess_( const Tag* tag )
+unique_ptr<TagDataAccess> DateTagConverter::logicToDataAccess_( const Tag* tag )
 {
-	auto_ptr<DateTagDataAccess> tagDA( dynamic_cast<DateTagDataAccess*>( TagConverter::logicToDataAccess_( tag ).release() ) );
+	unique_ptr<DateTagDataAccess> tagDA( dynamic_cast<DateTagDataAccess*>( TagConverter::logicToDataAccess_( tag ).release() ) );
 	const DateTag* dTag = dynamic_cast<const DateTag*> ( tag );
 	
 	tagDA->setYear( dTag->getYear() );
 	tagDA->setMonth( dTag->getMonth() );
 	tagDA->setDayOfMonth( dTag->getDayOfMonth() );
 	
-	return auto_ptr<TagDataAccess>( tagDA.release() );
+	return unique_ptr<TagDataAccess>( tagDA.release() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________

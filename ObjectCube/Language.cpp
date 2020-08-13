@@ -21,7 +21,7 @@ using namespace ObjectCube;
 
 const string Language::asString( const string& entityName, int entityId )
 {
-	auto_ptr<LanguageDataAccess> dataAccess( LanguageDataAccessFactory::create() );
+	unique_ptr<LanguageDataAccess> dataAccess( LanguageDataAccessFactory::create() );
 	//There is no converter, this is a simple utility function as of yet
 	return dataAccess->getTranslatedText( entityName, entityId, getLanguageId_() );
 }

@@ -109,7 +109,7 @@ namespace ObjectCube
 		void setId_( int id ) { id_ = id; }
 		void setTypeId_( int typeId ) { typeId_ = typeId; }
 		void setAccessId_( int accessId ) { accessId_ = accessId; }
-		void setTags_( vector<shared_ptr<Tag> > tags ) { tags_ = tags; }
+		void setTags_( vector<std::shared_ptr<Tag> > tags ) { tags_ = tags; }
 
 	//Framework support functionality
 		virtual void addFilter_( Filter* /*const*/ filter );
@@ -134,17 +134,17 @@ namespace ObjectCube
 		int typeId_;
 		int accessId_;
 		
-		vector<shared_ptr<Tag> > tags_;
-		vector<shared_ptr<Dimension> > dimensions_;
+		vector<std::shared_ptr<Tag> > tags_;
+		vector<std::shared_ptr<Dimension> > dimensions_;
 		
-		vector<shared_ptr<Filter> > filters_;
+		vector<std::shared_ptr<Filter> > filters_;
 		vector<int> supportedFilterTypes_;
 		vector<int> supportedTagTypes_;
 		
 		//Change to normal pointers, may be causing double memory cleanup
-		//static map<int, shared_ptr<Tag> > allTags_;  //This is here only for performance reasons, the pointers are memory managed in a shared_ptr vector
+		//static map<int, std::shared_ptr<Tag> > allTags_;  //This is here only for performance reasons, the pointers are memory managed in a std::shared_ptr vector
 		static map<int, Tag*> allTags_;
-		//static map<int, shared_ptr<Tag> > allTags_;
+		//static map<int, std::shared_ptr<Tag> > allTags_;
 		
 		//For unit tests
 		friend class TagSetTest;

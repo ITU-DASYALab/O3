@@ -322,7 +322,7 @@ void PersistentDimensionTest::testFetchDimension_()
 	Hub* hub = Hub::getHub();
 	TagSet* tagSet = hub->getTagSet( TEST_ALPHANUMERICAL_TAG_SET_ID );
 	
-	auto_ptr<PersistentDimension> dimension( PersistentDimension::fetch_( tagSet->getDimension( hierarchyRootName_ )->getId() ) );
+	unique_ptr<PersistentDimension> dimension( PersistentDimension::fetch_( tagSet->getDimension( hierarchyRootName_ )->getId() ) );
 	
 	CPPUNIT_ASSERT_EQUAL( 3, (int)dimension.get()->getRoot()->getBranches().size() );
 

@@ -62,7 +62,7 @@
 using namespace ObjectCube;
 using namespace std;
 
-shared_ptr<Hub> Hub::instance_;
+std::shared_ptr<Hub> Hub::instance_;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
@@ -136,7 +136,7 @@ void Hub::cleanup_()
 	tagSets_.clear();
 	TagSet::allTags_.clear();
 	
-	auto_ptr<HubDataAccess> dataAccess( HubDataAccessFactory::create() );
+	unique_ptr<HubDataAccess> dataAccess( HubDataAccessFactory::create() );
 	dataAccess->disconnect();
 
 	DebugInfo::getDebugInfo()->output( "Hub", "cleanup_", "Done" );
@@ -152,7 +152,7 @@ void Hub::loadTagSets_()
 	DebugInfo::getDebugInfo()->pushTimer( "Hub", "loadTagSets_", "getting a list of tag-sets" );
 	
 	DebugInfo::getDebugInfo()->output( "Hub", "loadTagSets_", "getting a list of tag-sets" );
-	auto_ptr<HubDataAccess> dataAccess( HubDataAccessFactory::create() );
+	unique_ptr<HubDataAccess> dataAccess( HubDataAccessFactory::create() );
 	vector<TagSetDataAccess*> tagSetsDA = dataAccess->getTagSets();
 DebugInfo::getDebugInfo()->output( "Hub", "loadTagSets_", "1" );
 	tagSets_ = TagSetConverter::dataAccessToLogic( tagSetsDA );  //Þetta fall sækir einungis grunn upplýsingar, restin kemur úr fetch föllunum sem hver tegund yfirskrifar
@@ -166,7 +166,7 @@ DebugInfo::getDebugInfo()->output( "Hub", "loadTagSets_", "2" );
 	DebugInfo::getDebugInfo()->pushTimer( "Hub", "loadTagSets_", "fetching the details (tags)" );
 	DebugInfo::getDebugInfo()->output( "Hub", "loadTagSets_", "fetching details" );
 
-	for( vector<shared_ptr<TagSet> >::iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		(*itr)->fetch_( (*itr)->getId() );
 	}
@@ -217,7 +217,7 @@ void Hub::createMissingPluginTagSets_()
 
 int Hub::createPluginTagSet_( int tagSetType, const string& name )
 {
-	auto_ptr<TagSet> tagSet( TagSetFactory::create( tagSetType ) );
+	unique_ptr<TagSet> tagSet( TagSetFactory::create( tagSetType ) );
 	tagSet->setName( name );
 	tagSet->setDescription( "Automatically created tag-set, for a plugin." );
 	tagSet->setAccessId_( TagSetCommon::SYSTEM );
@@ -234,7 +234,7 @@ TagSet* Hub::addTagSet( TagSet* /*const*/ tagSet )
 	}
 	
 	//We copy the TagSet to limit user action on the framework (and to simplify user memory management)
-	shared_ptr<TagSet> tagSetCopy( TagSetFactory::create( tagSet->getTypeId() ) );
+	std::shared_ptr<TagSet> tagSetCopy( TagSetFactory::create( tagSet->getTypeId() ) );
 	*(tagSetCopy.get()) = *tagSet;
 	tagSets_.push_back( tagSetCopy );
 	return tagSetCopy.get();
@@ -243,7 +243,7 @@ TagSet* Hub::addTagSet( TagSet* /*const*/ tagSet )
 
 void Hub::removeTagSet( TagSet* /*const*/ tagSet )
 {
-	for( vector<shared_ptr<TagSet> >::iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		if( (*itr)->getId() == tagSet->getId() )
 		{
@@ -289,7 +289,7 @@ void Hub::addObject( Object& object )
 	DebugInfo::getDebugInfo()->pushTimer( "Hub", "addObject" );
 	
 	//Retrieve object data
-	auto_ptr<PluginObject> pluginObject( getPluginObject_( object ) );
+	unique_ptr<PluginObject> pluginObject( getPluginObject_( object ) );
 	
 	//Plugin processing
 	vector<PluginTaggingProcessed> potentialTags = pluginServer_->getProcessObjectServer().process( *pluginObject );
@@ -315,7 +315,7 @@ int Hub::processAllObjects( int pluginId )
 
 int Hub::processAllObjects( int pluginId, int reportInterval, void (*funcPtr)(int) )
 {
-	auto_ptr<ObjectDataAccess> dataAccess( ObjectDataAccessFactory::create() );
+	unique_ptr<ObjectDataAccess> dataAccess( ObjectDataAccessFactory::create() );
 	vector<ObjectDataAccess*> objectsDA = dataAccess->fetchAllObjects();
 	vector<Object> objects = ObjectConverter::dataAccessToLogic( objectsDA );
 	
@@ -337,7 +337,7 @@ int Hub::processAllObjects( int pluginId, int reportInterval, void (*funcPtr)(in
 	long noProcessed = 0;
 	for( vector<Object>::iterator itr = objects.begin(); itr != objects.end(); ++itr )
 	{
-		auto_ptr<PluginObject> pluginObject( getPluginObject_( *itr ) );
+		unique_ptr<PluginObject> pluginObject( getPluginObject_( *itr ) );
 		//map<PluginTagSet, string> potentialTags = pluginServer_->getProcessObjectServer().process( *pluginObject, pluginId );
 		
 		vector<PluginTaggingProcessed> potentialTags = pluginServer_->getProcessObjectServer().process( *pluginObject, pluginId );
@@ -392,7 +392,7 @@ PluginObject* Hub::getPluginObject_( const Object& object ) const
 	long size = file.tellg();
 	file.seekg (0, std::ios::beg);
 	
-	auto_ptr<char> data( new char[ size ] );
+	unique_ptr<char> data( new char[ size ] );
 	file.read( data.get(), size );
 	file.close();
 	
@@ -413,7 +413,7 @@ void Hub::addFilter( Filter* /*const*/ filter )
 
 void Hub::removeAllFilters()
 {	
-	for( vector<shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		(*itr)->removeFilters_();
 	}
@@ -430,7 +430,7 @@ void Hub::removeFilter( Filter* filter )
 const vector<Filter*> Hub::getFilters() const
 {
 	vector<Filter*> filters;
-	for( vector<shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		const vector<Filter*> tagSetFilters = (*itr)->getFilters();
 		filters.insert( filters.end(), tagSetFilters.begin(), tagSetFilters.end() );
@@ -442,7 +442,7 @@ const vector<Filter*> Hub::getFilters() const
 const vector<Filter*> Hub::getFilters( int filterType ) const
 {
 	vector<Filter*> filters;
-	for( vector<shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		const vector<Filter*> tagSetFilters = (*itr)->getFilters();
 		for( vector<Filter*>::const_iterator fItr = tagSetFilters.begin(); fItr != tagSetFilters.end(); ++fItr )
@@ -464,7 +464,7 @@ State Hub::getState()
 	
 	vector<Filter*> filters = getFilters();
 	
-	auto_ptr<HubDataAccess> dataAccess( HubDataAccessFactory::create() );
+	unique_ptr<HubDataAccess> dataAccess( HubDataAccessFactory::create() );
 	
 	DebugInfo::getDebugInfo()->pushTimer( "Hub", "getState", "data access" );
 	vector<FilterDataAccess*> filtersDA = FilterConverter::logicToDataAccess( filters );
@@ -507,7 +507,7 @@ State Hub::getState()
 
 const vector<int> Hub::searchText( const string& name ) 
 {	
-	auto_ptr<SearchDataAccess> dataAccess( SearchDataAccessFactory::create() );
+	unique_ptr<SearchDataAccess> dataAccess( SearchDataAccessFactory::create() );
 	dataAccess->setName(name);
 
 	return dataAccess->textSearch();
@@ -515,7 +515,7 @@ const vector<int> Hub::searchText( const string& name )
 
 const vector<int> Hub::searchRGB( const string& name ) 
 {	
-	auto_ptr<SearchDataAccess> dataAccess( SearchDataAccessFactory::create() );
+	unique_ptr<SearchDataAccess> dataAccess( SearchDataAccessFactory::create() );
 	dataAccess->setName(name); 
 	
 	return dataAccess->rgbSearch();
@@ -525,7 +525,7 @@ const vector<int> Hub::searchRGB( const string& name )
 
 unsigned int Hub::getObjectCount()
 {
-	auto_ptr<HubDataAccess> dataAccess( HubDataAccessFactory::create() );
+	unique_ptr<HubDataAccess> dataAccess( HubDataAccessFactory::create() );
 	return dataAccess->getObjectCount();
 }
 
@@ -545,7 +545,7 @@ vector<StateObject> Hub::getObjects()
 
 	vector<Filter*> filters = getFilters();
 	
-	auto_ptr<HubDataAccess> dataAccess( HubDataAccessFactory::create() );
+	unique_ptr<HubDataAccess> dataAccess( HubDataAccessFactory::create() );
 	
 	DebugInfo::getDebugInfo()->pushTimer( "Hub", "getObjects", "data access" );
 	vector<FilterDataAccess*> filtersDA = FilterConverter::logicToDataAccess( filters );
@@ -595,7 +595,7 @@ vector<StateObject> Hub::getObjects()
 
 int Hub::getParentTagSetsAccessType( const Tag* /*const*/ tag ) const
 {
-	for( vector<shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		if( (*itr)->getId() == tag->getTagSetId() )
 		{
@@ -610,7 +610,7 @@ const Tag * /*const*/ Hub::getUncategorizedTag() const
 {
 	TagSet* tagSet = 0;
 	//Find the dimension
-	for( vector<shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		tagSet = (*itr).get();
 		if( tagSet->getName() == Hub::getUncategorizedDimensionName() )
@@ -644,7 +644,7 @@ const Tag * /*const*/ Hub::getUncategorizedTag() const
 vector<TagSet*> Hub::getTagSets() const
 {
 	vector<TagSet*> tagSets;
-	for( vector<shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		tagSets.push_back( (*itr).get() );
 	}
@@ -654,7 +654,7 @@ vector<TagSet*> Hub::getTagSets() const
 
 TagSet* Hub::getTagSet( int id )
 {
-	for( vector<shared_ptr<TagSet> >::iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		if( (*itr)->getId() == id )
 		{
@@ -670,7 +670,7 @@ TagSet* Hub::getTagSet( int id )
 
 TagSet* Hub::getTagSet( const string& name )
 {
-	for( vector<shared_ptr<TagSet> >::iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		if( (*itr)->getName() == name )
 		{
@@ -704,7 +704,7 @@ const vector<Tag*> Hub::getTags( const vector<int>& tagIds ) const
 const vector<Tag*> Hub::getAllTags() const
 {
 	vector<Tag*> tags;
-	for( vector<shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		vector<Tag*> tempTags = (*itr)->getTags(); 
 		tags.insert( tags.end(), tempTags.begin(), tempTags.end() );
@@ -716,7 +716,7 @@ const vector<Tag*> Hub::getAllTags() const
 const Tag* /*const*/ Hub::getTag( int id ) const
 {
 	map<int, Tag* >::iterator itr = TagSet::allTags_.find( id );
-	//map<int, shared_ptr<Tag> >::iterator itr = TagSet::allTags_.find( id );
+	//map<int, std::shared_ptr<Tag> >::iterator itr = TagSet::allTags_.find( id );
 	if( itr == TagSet::allTags_.end() ) //Not found
 	{
 		throw Exception( "Hub::getTag", "Tag does not exist (id).", id );
@@ -730,7 +730,7 @@ const Tag* /*const*/ Hub::getTag( int id ) const
 const vector<Dimension*> Hub::getDimensions() const
 {
 	vector<Dimension*> dimensions;
-	for( vector<shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		vector<Dimension*> tempDimensions = (*itr)->getDimensions();
 		dimensions.insert( dimensions.end(), tempDimensions.begin(), tempDimensions.end() );
@@ -742,7 +742,7 @@ const vector<Dimension*> Hub::getDimensions() const
 const vector<PersistentDimension*> Hub::getPersistentDimensions() const
 {
 	vector<PersistentDimension*> dimensions;
-	for( vector<shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		vector<PersistentDimension*> tempDimensions = (*itr)->getPersistentDimensions();
 		dimensions.insert( dimensions.end(), tempDimensions.begin(), tempDimensions.end() );
@@ -754,7 +754,7 @@ const vector<PersistentDimension*> Hub::getPersistentDimensions() const
 const vector<VirtualDimension*> Hub::getVirtualDimensions() const
 {
 	vector<VirtualDimension*> dimensions;
-	for( vector<shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
+	for( vector<std::shared_ptr<TagSet> >::const_iterator itr = tagSets_.begin(); itr != tagSets_.end(); ++itr)
 	{
 		vector<VirtualDimension*> tempDimensions = (*itr)->getVirtualDimensions();
 		dimensions.insert( dimensions.end(), tempDimensions.begin(), tempDimensions.end() );
@@ -766,7 +766,7 @@ const vector<VirtualDimension*> Hub::getVirtualDimensions() const
 
 void Hub::refreshMaterializedViews()
 {
-	auto_ptr<HubDataAccess> dataAccess( HubDataAccessFactory::create() );
+	unique_ptr<HubDataAccess> dataAccess( HubDataAccessFactory::create() );
 	dataAccess->refreshMaterializedViews();
 }
 

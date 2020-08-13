@@ -17,7 +17,7 @@
 using std::shared_ptr;
 #else
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 #include "../DataAccess/Factories/HierarchyNodeDataAccessFactory.h"
@@ -69,7 +69,7 @@ PersistentHierarchyNode::~PersistentHierarchyNode()
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-PersistentHierarchyNode* PersistentHierarchyNode::constructTree_( vector<shared_ptr<HierarchyNode> >& nodes, int& offset )
+PersistentHierarchyNode* PersistentHierarchyNode::constructTree_( vector<std::shared_ptr<HierarchyNode> >& nodes, int& offset )
 {
 	if( offset >= nodes.size() ) 
 	{
@@ -87,7 +87,7 @@ PersistentHierarchyNode* PersistentHierarchyNode::constructTree_( vector<shared_
 	
 		if( dynamic_cast<PersistentHierarchyNode*>( nodes[ offset ].get() )->rightBorder_ < rightBorder_ ) //Sub branch or branches
 		{
-			shared_ptr<PersistentHierarchyNode> branch( new PersistentHierarchyNode() );
+			std::shared_ptr<PersistentHierarchyNode> branch( new PersistentHierarchyNode() );
 			*branch.get() = *dynamic_cast<PersistentHierarchyNode*>( nodes[ offset ].get() );
 			
 			branch->constructTree_( nodes, offset );
@@ -104,8 +104,8 @@ PersistentHierarchyNode* PersistentHierarchyNode::constructTree_( vector<shared_
 
 PersistentHierarchyNode PersistentHierarchyNode::create_()
 {	
-	auto_ptr<HierarchyNodeDataAccess> dataAccess( HierarchyNodeConverter::logicToDataAccess( this ) );
-	shared_ptr<PersistentHierarchyNode> created( HierarchyNodeConverter::dataAccessToLogic( dataAccess->create() ) );
+	unique_ptr<HierarchyNodeDataAccess> dataAccess( HierarchyNodeConverter::logicToDataAccess( this ) );
+	std::shared_ptr<PersistentHierarchyNode> created( HierarchyNodeConverter::dataAccessToLogic( dataAccess->create() ) );
 	*this = *created.get();
 	
 	name_ = Hub::getHub()->getTagSet( getTagSetId() )->getTag( getTagId() )->valueAsString();
@@ -116,7 +116,7 @@ PersistentHierarchyNode PersistentHierarchyNode::create_()
 
 PersistentHierarchyNode* PersistentHierarchyNode::addBranch_( const Tag* /*const*/ tag )
 {
-	shared_ptr<PersistentHierarchyNode> child( new PersistentHierarchyNode( tag, dimensionId_, tagSetId_ ) );
+	std::shared_ptr<PersistentHierarchyNode> child( new PersistentHierarchyNode( tag, dimensionId_, tagSetId_ ) );
 	child->create_();  //Insert into db (get an id there)
 	children_.push_back( child );
 	return child.get();
@@ -131,7 +131,7 @@ void PersistentHierarchyNode::addBranch_( int parentNodeId, const Tag* /*const*/
 		return;
 	}
 	
-	for( vector<shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
+	for( vector<std::shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
 	{
 		PersistentHierarchyNode* phNode = dynamic_cast<PersistentHierarchyNode*>( (*itr).get() );
 		if( phNode->getId() == parentNodeId )
@@ -150,13 +150,13 @@ void PersistentHierarchyNode::addBranch_( int parentNodeId, const Tag* /*const*/
 void PersistentHierarchyNode::remove_()
 {
 	//Remove all children and then delete self
-	for( vector<shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
+	for( vector<std::shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
 	{
 		PersistentHierarchyNode* phNode = dynamic_cast<PersistentHierarchyNode*>( (*itr).get() );
 		phNode->remove_();
 	}
 	
-	auto_ptr<HierarchyNodeDataAccess> dataAccess( HierarchyNodeConverter::logicToDataAccess( this ) );
+	unique_ptr<HierarchyNodeDataAccess> dataAccess( HierarchyNodeConverter::logicToDataAccess( this ) );
 	dataAccess->remove();
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
@@ -168,7 +168,7 @@ void PersistentHierarchyNode::removeBranch_( int id )
 		remove_();
 		return;
 	}
-	for( vector<shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
+	for( vector<std::shared_ptr<HierarchyNode> >::iterator itr = children_.begin(); itr != children_.end(); ++itr )
 	{
 		PersistentHierarchyNode* phNode = dynamic_cast<PersistentHierarchyNode*>( (*itr).get() );		
 		phNode->removeBranch_( id );
@@ -197,7 +197,7 @@ void PersistentHierarchyNode::updateBorders_( int& borderCounter )
 {
 	TagBasedHierarchyNode::updateBorders_( borderCounter );
 	
-	auto_ptr<HierarchyNodeDataAccess> dataAccess( HierarchyNodeConverter::logicToDataAccess( this ) );
+	unique_ptr<HierarchyNodeDataAccess> dataAccess( HierarchyNodeConverter::logicToDataAccess( this ) );
 	dataAccess->update();
 }	
 //____________________________________________________________________________________________________________________________________________________________________________________

@@ -18,9 +18,9 @@ using namespace ObjectCube;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-shared_ptr<Tag> AlphanumericalTagConverter::dataAccessToLogic_( const TagDataAccess* tagDA )
+std::shared_ptr<Tag> AlphanumericalTagConverter::dataAccessToLogic_( const TagDataAccess* tagDA )
 {
-	shared_ptr<Tag> tag( TagConverter::dataAccessToLogic_( tagDA ) );
+	std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic_( tagDA ) );
 	AlphanumericalTag* aTag = dynamic_cast<AlphanumericalTag*>( tag.get() );
 	
 	const AlphanumericalTagDataAccess* aTagDA = dynamic_cast<const AlphanumericalTagDataAccess*>( tagDA );
@@ -33,9 +33,9 @@ shared_ptr<Tag> AlphanumericalTagConverter::dataAccessToLogic_( const TagDataAcc
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-auto_ptr<TagDataAccess> AlphanumericalTagConverter::logicToDataAccess_( const Tag* tag )
+unique_ptr<TagDataAccess> AlphanumericalTagConverter::logicToDataAccess_( const Tag* tag )
 {
-	auto_ptr<TagDataAccess> tagDA(TagConverter::logicToDataAccess_( tag ) );
+	unique_ptr<TagDataAccess> tagDA(TagConverter::logicToDataAccess_( tag ) );
 	AlphanumericalTagDataAccess* aTagDA = dynamic_cast<AlphanumericalTagDataAccess*>( tagDA.get() );
 	
 	aTagDA->setName( dynamic_cast<const AlphanumericalTag*>( tag )->getName() );

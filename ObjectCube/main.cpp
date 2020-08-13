@@ -39,8 +39,8 @@ using namespace ObjectCube;
 // 2010-11-18	38,667		495
 // 2010-12-30	39,676		499
 
-//Consider moving all pointers to TR1 shared_ptr<>
-// #include <tr1/memory>, std::tr1::shared_ptr<>
+//Consider moving all pointers to TR1 std::shared_ptr<>
+// #include <tr1/memory>, std::shared_ptr<>
 
 #include "TagSet/AlphanumericalTagSet.h"
 #include "TagSet/NumericalTagSet.h"

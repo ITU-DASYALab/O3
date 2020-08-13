@@ -122,7 +122,7 @@ void PersistentHierarchyNodeTest::testGetBranch_()
 	
 	PersistentDimension* hierarchy = tagSet->getPersistentDimension( hierarchyRootName_ );
 	
-	auto_ptr<AlphanumericalTag> branchTag( AlphanumericalTag::fetch( tagSet->getId(), hierarchyChildNodeName_ ) ); 	
+	unique_ptr<AlphanumericalTag> branchTag( AlphanumericalTag::fetch( tagSet->getId(), hierarchyChildNodeName_ ) ); 	
 	PersistentHierarchyNode* branchNode = hierarchy->addNode( hierarchy->getRoot()->getId(), branchTag.get() );
 	
 	PersistentHierarchyNode* nodeReturned = dynamic_cast<PersistentHierarchyNode*>( hierarchy->getRoot()->getBranch( branchNode->getId() ) );

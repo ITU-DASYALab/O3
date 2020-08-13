@@ -18,7 +18,7 @@
 using std::shared_ptr;
 #else
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 using namespace std;
@@ -49,7 +49,7 @@ namespace ObjectCube
 		Parameters( const Parameters& parameters ); //Intentionally not implemented
 		
 	private:
-		static shared_ptr<Parameters> instance_;
+		static std::shared_ptr<Parameters> instance_;
 		map<string,string> params_;
 		
 	};	

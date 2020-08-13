@@ -15,10 +15,10 @@ using namespace ObjectCube;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-auto_ptr<FilterDataAccess> TimeRangeFilterConverter::logicToDataAccess_( const Filter* filter )
+unique_ptr<FilterDataAccess> TimeRangeFilterConverter::logicToDataAccess_( const Filter* filter )
 {
 	
-	auto_ptr<TimeRangeFilterDataAccess> filterDA( dynamic_cast<TimeRangeFilterDataAccess*>( FilterConverter::logicToDataAccess_( filter ).release() ) );
+	unique_ptr<TimeRangeFilterDataAccess> filterDA( dynamic_cast<TimeRangeFilterDataAccess*>( FilterConverter::logicToDataAccess_( filter ).release() ) );
 	
 	
 	const TimeRangeFilter* trFilter = dynamic_cast<const TimeRangeFilter*> ( filter );
@@ -37,6 +37,6 @@ auto_ptr<FilterDataAccess> TimeRangeFilterConverter::logicToDataAccess_( const F
 	filterDA->setSecondsTo( trFilter->getSecondsTo() );
 	filterDA->setMillisecondsTo( trFilter->getMillisecondsTo() );
 	
-	return auto_ptr<FilterDataAccess>( filterDA.release() );
+	return unique_ptr<FilterDataAccess>( filterDA.release() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________

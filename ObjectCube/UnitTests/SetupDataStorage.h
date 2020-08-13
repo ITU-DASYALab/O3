@@ -31,7 +31,7 @@ namespace ObjectCube
 	private:
 		SetupDataStorage();
 		vector<Setup*> dataStorages_;
-		static auto_ptr<SetupDataStorage> instance_;
+		static unique_ptr<SetupDataStorage> instance_;
 		
 	};
 	

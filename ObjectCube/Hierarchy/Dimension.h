@@ -15,7 +15,7 @@
 using std::shared_ptr;
 #else
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 #include "../LayerShared/DimensionCommon.h"
@@ -64,7 +64,7 @@ namespace ObjectCube
 		int id_;
 		int typeId_;
 		int tagSetId_;
-		shared_ptr<HierarchyNode> root_;
+		std::shared_ptr<HierarchyNode> root_;
 		
 		//int depthOfHierarchy (add this)
 		//int noOfVertices (add this)

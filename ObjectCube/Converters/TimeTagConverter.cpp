@@ -18,9 +18,9 @@ using namespace ObjectCube;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-shared_ptr<Tag> TimeTagConverter::dataAccessToLogic_( const TagDataAccess* tagDA )
+std::shared_ptr<Tag> TimeTagConverter::dataAccessToLogic_( const TagDataAccess* tagDA )
 {
-	shared_ptr<Tag> tag( TagConverter::dataAccessToLogic_( tagDA ) );
+	std::shared_ptr<Tag> tag( TagConverter::dataAccessToLogic_( tagDA ) );
 	TimeTag* tTag = dynamic_cast<TimeTag*>( tag.get() );
 	
 	const TimeTagDataAccess* tTagDA = dynamic_cast<const TimeTagDataAccess*>( tagDA );
@@ -36,9 +36,9 @@ shared_ptr<Tag> TimeTagConverter::dataAccessToLogic_( const TagDataAccess* tagDA
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-auto_ptr<TagDataAccess> TimeTagConverter::logicToDataAccess_( const Tag* tag )
+unique_ptr<TagDataAccess> TimeTagConverter::logicToDataAccess_( const Tag* tag )
 {
-	auto_ptr<TimeTagDataAccess> tagDA( dynamic_cast<TimeTagDataAccess*>( TagConverter::logicToDataAccess_( tag ).release() ) );
+	unique_ptr<TimeTagDataAccess> tagDA( dynamic_cast<TimeTagDataAccess*>( TagConverter::logicToDataAccess_( tag ).release() ) );
 	const TimeTag* tTag = dynamic_cast<const TimeTag*> ( tag );
 	
 	tagDA->setHours( tTag->getHours() );
@@ -46,7 +46,7 @@ auto_ptr<TagDataAccess> TimeTagConverter::logicToDataAccess_( const Tag* tag )
 	tagDA->setSeconds( tTag->getSeconds() );
 	tagDA->setMilliseconds( tTag->getMilliseconds() );
 	
-	return auto_ptr<TagDataAccess>( tagDA.release() );
+	return unique_ptr<TagDataAccess>( tagDA.release() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________
 

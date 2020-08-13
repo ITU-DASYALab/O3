@@ -15,10 +15,10 @@ using namespace ObjectCube;
 
 //____________________________________________________________________________________________________________________________________________________________________________________
 
-auto_ptr<FilterDataAccess> NumericalRangeFilterConverter::logicToDataAccess_( const Filter* filter )
+unique_ptr<FilterDataAccess> NumericalRangeFilterConverter::logicToDataAccess_( const Filter* filter )
 {
 	
-	auto_ptr<NumericalRangeFilterDataAccess> filterDA( dynamic_cast<NumericalRangeFilterDataAccess*>( FilterConverter::logicToDataAccess_( filter ).release() ) );
+	unique_ptr<NumericalRangeFilterDataAccess> filterDA( dynamic_cast<NumericalRangeFilterDataAccess*>( FilterConverter::logicToDataAccess_( filter ).release() ) );
 	
 	const NumericalRangeFilter* nrFilter = dynamic_cast<const NumericalRangeFilter*> ( filter );
 	if( !nrFilter )
@@ -31,6 +31,6 @@ auto_ptr<FilterDataAccess> NumericalRangeFilterConverter::logicToDataAccess_( co
 	filterDA->numberFromIsNull_ = nrFilter->numberFromIsNull_;
 	filterDA->numberToIsNull_ = nrFilter->numberToIsNull_;
 	
-	return auto_ptr<FilterDataAccess>( filterDA.release() );
+	return unique_ptr<FilterDataAccess>( filterDA.release() );
 }
 //____________________________________________________________________________________________________________________________________________________________________________________

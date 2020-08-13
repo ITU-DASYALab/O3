@@ -15,7 +15,7 @@
 using std::shared_ptr;
 #else
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #endif
 
 #include "../TagSet/TagSet.h"
@@ -98,15 +98,15 @@ const PersistentHierarchyNode* PersistentDimension::getPersistentRoot() const
 
 PersistentDimension* PersistentDimension::fetch_( int id )
 {
-	auto_ptr<DimensionDataAccess> dataAccess( DimensionDataAccessFactory::create() );
+	unique_ptr<DimensionDataAccess> dataAccess( DimensionDataAccessFactory::create() );
 	vector<HierarchyNodeDataAccess*> nodesDA = dataAccess->fetch( id );
-	vector<shared_ptr<HierarchyNode> > nodes = HierarchyNodeConverter::dataAccessToLogic( nodesDA );
+	vector<std::shared_ptr<HierarchyNode> > nodes = HierarchyNodeConverter::dataAccessToLogic( nodesDA );
 	clearAndDestroy( nodesDA );
 	if( !nodes.size() ) //Throw error ?
 	{
 		throw Exception( "PersistentDimension::fetch_", "Dimension being fetched was not retrieved", id );
 	}
-	auto_ptr<PersistentDimension> persistentDimension( new PersistentDimension() );
+	unique_ptr<PersistentDimension> persistentDimension( new PersistentDimension() );
 	PersistentHierarchyNode* phRoot = persistentDimension->getPersistentRoot();
 	int offset = 0;
 	phRoot->constructTree_( nodes, offset );
@@ -119,7 +119,7 @@ PersistentDimension* PersistentDimension::fetch_( int id )
 int PersistentDimension::create_()
 {
 	//Validate whether dimension and tag exist
-	auto_ptr<DimensionDataAccess> dataAccess( DimensionConverter::logicToDataAccess( this ) );
+	unique_ptr<DimensionDataAccess> dataAccess( DimensionConverter::logicToDataAccess( this ) );
 	setId_( dataAccess->nextId() );
 	PersistentHierarchyNode* phRoot = getPersistentRoot();
 	phRoot->setDimensionId_( getId() );
@@ -156,7 +156,7 @@ PersistentHierarchyNode* PersistentDimension::addNode( int parentNodeId, const T
 
 PersistentHierarchyNode* PersistentDimension::getNode( const string& name )
 {
-	auto_ptr<AlphanumericalTag> tag( AlphanumericalTag::fetch( getTagSetId(), name ) );  //ToDo:  Fix this, very slow.
+	unique_ptr<AlphanumericalTag> tag( AlphanumericalTag::fetch( getTagSetId(), name ) );  //ToDo:  Fix this, very slow.
 	TagBasedHierarchyNode* node = 0;
 	getPersistentRoot()->getNode_( tag->getId(), &node );
 	if( node == 0 )
@@ -172,7 +172,7 @@ void PersistentDimension::removeBranch( int branchNodeId )
 	getPersistentRoot()->removeBranch_( branchNodeId );
 	try 
 	{
-		auto_ptr<PersistentDimension> persistentDimensionCopy( PersistentDimension::fetch_( id_ ) );
+		unique_ptr<PersistentDimension> persistentDimensionCopy( PersistentDimension::fetch_( id_ ) );
 		*this = *persistentDimensionCopy.get();
 	}
 	catch( Exception& e) 

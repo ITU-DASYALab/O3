@@ -10,6 +10,7 @@ endif()
 
 MESSAGE( STATUS ${CMAKE_CXX_COMPILER} )
 
+file(MAKE_DIRECTORY /usr/local/ObjectCube )
 file(MAKE_DIRECTORY /usr/local/ObjectCube/plugin )
 
 FILE (GLOB_RECURSE Files_CPP *.cpp )
