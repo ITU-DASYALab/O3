@@ -1,0 +1,10 @@
+libpqxx
+ObjectCube/CMakeCache.txt
+ObjectCube/CMakeFiles/
+ObjectCube/Makefile
+ObjectCube/cmake_install.cmake
+ObjectCube/libObjectCube.so
+*.so
+*.o
+a.out
+*~

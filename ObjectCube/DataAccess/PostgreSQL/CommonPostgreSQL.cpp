@@ -155,7 +155,7 @@ void CommonPostgreSQL::disconnect()
 	if( connected_ )
 	{
 		connected_ = false;
-		connection_->disconnect();
+		//connection_->disconnect();
 	}
 }
 
