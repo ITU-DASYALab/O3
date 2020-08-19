@@ -4,7 +4,11 @@ ObjectCube/CMakeFiles/
 ObjectCube/Makefile
 ObjectCube/cmake_install.cmake
 ObjectCube/libObjectCube.so
+CMakeFiles
+*.cmake
+CMakeCache*
 *.so
 *.o
 a.out
 *~
+*.pyc

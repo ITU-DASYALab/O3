@@ -23,7 +23,7 @@ PYTHON_LIB = .
 
 BOOST_INCLUDE = 
 CDEBUG =
-CXXFLAGS =
+CXXFLAGS = 
 
 #The following line should be added to CDEBUG for extra info
 #-v -p -n 
@@ -35,7 +35,7 @@ ifeq ($(OS), Linux)
 	PYTHON_INCLUDE = /usr/include/python$(PYTHON_VERSION)
 	BOOST_INCLUDE =
 	CDEBUG = -o -g
-	CXXFLAGS = $(CDEBUG) -fPIC -I. -I$(srcdir) $(DEFS) -I/Developer/SDKs/MacOSX10.7.sdk/usr/include/ -I/opt/local/include/sdk/include -I/opt/local/include -I$(PYTHON_INCLUDE) -I$(BOOST_INCLUDE) -L/usr/local/lib -L/usr/lib -std=c++17
+	CXXFLAGS = $(CDEBUG) -fPIC -I. -I$(srcdir) $(DEFS) -I/Developer/SDKs/MacOSX10.7.sdk/usr/include/ -I/opt/local/include/sdk/include -I/opt/local/include -I$(PYTHON_INCLUDE) -I$(BOOST_INCLUDE) -L/usr/local/lib -L/usr/lib -std=c++11
 
 else ifeq ($(OS), Darwin)
 	TARGET_NAME = ObjectCubePython.so
