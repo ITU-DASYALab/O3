@@ -1,0 +1,1 @@
+refresh materialized view alphanumerical_tag_materialized_view;
